@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html lang="eng">
+
+<head>
+    <link href="raport.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="icon.png" />
+    <title>Raport Chor</title>
+</head>
+
+<body>
+
+    <div class="positie">
+    <h1>Raport Smart Children Monitor</h1>
+
+    <h2>Cuprins</h2>
+
+    <ol>
+        <div class="section">
+        <li>Introduction</li>
+        <ul>
+            <li>Purpose</li>
+            <li>Product scope</li>
+            <li>Product functions</li></l1>
+        </ul>
+        </div>
+
+        <div class="section">
+        <li>Overall description</li>
+        <ul>
+            <li>User Classes and Characteristics</li>
+            <li>Operating Environment </li>
+            <li>Design and Implementation Constraints</li>
+            <li>User documentation</li>
+            <li>Assumptions and Dependencies</li>
+        </ul>
+        </div>
+
+        <div class="section">
+        <li>External Interface Requirements</li>
+        <ul>
+            <li>Communication interfaces</li>
+        </ul>
+        </div>
+
+        <div class="section">
+        <li>System Features</li>
+        <ul>
+            <li>all features</li>
+            <li>Security requirements</li>
+        </ul>
+        </div>
+
+        <div class="section">
+        <li>Bibliography</li>
+        </div>
+    </ol>
+
+
+    <h2> Introduction </h2>
+
+    <h3>Purpose</h3>
+    <p>Scopul principal al acestui document este de a oferi un exemplu de functionare a aplicatiei Smart Children Monitor.</p>
+    
+    <h3>Product scope</h3>
+    <p>Scopul proiectului este realizarea unui sistem Web de monitorizare in timp real a unui copil sau a unui grup de copii. </p>
+    <p>Se vor oferi informatii despre locatia actuala, cu cine se intalneste, informatii privind posibile accidente sau situatii periculoase. </p>
+
+    <h3>Product functions</h3>
+    <ul>
+        <li>Crearea unui cont</li>
+        <li>Conectarea unui utilizator la aplicatia</li>
+        <li>Adaugarea unui copil pentru a putea fi monitorizat</li>
+        <li>Posibilitatea de a adauga un copil la “favoriti” pentru a avea acces mai rapid</li>
+        <li>Stergerea unui copil din sistemul de monitorizare</li>
+        <li>Accesarea individuala a paginii fiecarui copil</li>
+        <li>Vizualizare locatie in timp real a copilului</li>
+        <li>Primirea de alerte sau evenimente importante ( deplasarea la o distanta mai mare de x metri, intalnirea cu alt copil)</li>
+        <li>Vizualizarea informatilor de la senzori ( locatia, camera live, puls, starea de miscare, temperatura)</li>
+    </ul>
+
+
+
+    <h2>Overall description</h2>
+
+    <h3>User classes and Characteristics</h3>
+    <p>TO DO</p>
+
+    <h3>Operating Environment</h3>
+    <ul>
+        <li>Aplicatia va rula pe un server in cloud</li>
+        <li>Se va folosi Node.js pentru backend </li>
+        <li>Pentru gestionarea bazei de date este folosit MongoDB</li>
+    </ul>
+
+    <h3>Design and Implementation Constraints</h3>
+    <p>Limitari Hardware: Dispozitivul folosit pentru monitorizarea copilului are nevoie de o conexiune permanenta la internet pe baza unei cartele SIM.</p>
+
+    <h3>User documentation</h3>
+    <p>Solutia finala va fi insotita de un manual de utilizare.</p>
+
+    <h3>Assumptions and Dependencies</h3>
+    <ul>
+        <li>MongoDB driver pentru Node.js</li>
+        <li>In caz ca se va folosi un dispozitiv hardware pentru monitorizare se va folosi:
+            <ul>
+                <li>SparkFun_MAX3010x_Sensor_Library</li>
+                <li>TinyGPS</li>
+                <li>mpu6050</li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <h2>External Interface Requirements</h2>
+
+    <h3>Communication interfaces</h3>
+    <p>Se va folosi HTTP pentru comunicarea intre frontend si backend.</p>
+    
+
+    <h2>System Features</h2>
+    <p>Aceasta aplicatie contine urmatoarele functionalitati:</p>
+    <ul>
+        <li>
+            <h2>Vizualizare locatie in timp real a copilului:</h2>
+            <ul>
+            <li>Prioritatea acestei functionalitati este ridicata.</li>
+            <li>Aceasta functionalitate este accesata prin intermediul paginii personale a unui copil de catre un parinte/tutore care a adaugat copilul. </li>
+            <li>Locatia este reprezentata pe o harta, atat cat si prin afisarea adresei in format text.</li>
+            </ul>
+        </li>
+        <li>
+            <h2>Primirea de alerte sau evenimente</h2>
+            <ul>
+                <li>Prioriteatea acestei functionalitati este ridicata.</li>
+                <li>Aceasta functionalitate va functiona in fiecare pagina astfel incat alerta va aparea in format de popup notification.</li>
+                <li>Aceste alerte vor aparea in momentul in care se vor provoca anumite accidente.</li>
+            </ul>
+        </li>
+        <li>
+            <h2>Vizualizare informatii oferite de catre senzori</h2>
+            <ul>
+                <li>Prioritatea acestei functionalitati este medie.</li>
+                <li>Aceasta functionalitatea permite utillizatorului sa vizualizeze pulsul, temperatura sau viteza cu care se deplaseaza copilul monitorizat.</li>
+            </ul>
+        </li>
+        <li>
+            <h2>Crearea unei liste de favoriti</h2>
+            <ul>
+                <li>Prioritatea acestei functionalitati este scazuta</li>
+                <li>Aceasta functionalitate permite utilizatorului sa creeze o lista unde poate marca copii ca favoriti, putand sa ii acceseze mult mai rapid.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Security requirements</h2>
+    <p>Implementarea protectiei impotriva atacurilor de tip „injection”.	</p>
+
+
+    <h2>Bibliography</h2>
+    <ul>
+        <li><a href="https://github.com/sparkfun/SparkFun_MAX3010x_Sensor_Library"> https://github.com/sparkfun/SparkFun_MAX3010x_Sensor_Library </a> </li>
+        <li><a href="https://github.com/neosarchizo/TinyGPS">https://github.com/neosarchizo/TinyGPS</a></li>
+        <li><a href="https://github.com/ElectronicCats/mpu6050">https://github.com/ElectronicCats/mpu6050</a></li>
+        <li><a href="https://github.com/rick4470/IEEE-SRS-Tempate">https://github.com/rick4470/IEEE-SRS-Tempate</a></li>
+        <li><a href="https://w3c.github.io/scholarly-html/">https://w3c.github.io/scholarly-html/</a></li>
+    </ul>
+
+</div>
+
+</body>
+</html>

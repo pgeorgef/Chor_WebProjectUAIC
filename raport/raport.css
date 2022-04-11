@@ -1,0 +1,37 @@
+*{
+    font-family: "Times New Roman", Times, serif;
+    font-size: 20px;
+}
+
+.positie{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,0);
+    border-radius: 10px;
+    width: 800px;
+    max-width: 80%;
+    padding-bottom: 50px;
+}
+
+.positie > h1{
+    text-align: center;
+    margin-bottom: 75px;
+    font-size: 2.5em;
+}
+
+.positie > h2{
+    margin-top: 100px;
+    font-size: 1.5em;
+}
+
+.section{
+    margin-bottom: 20px;
+}
+
+.positie > h3{
+    padding-left: 2em;
+}
+
+body{
+    background: #EDF5E1;
+}
