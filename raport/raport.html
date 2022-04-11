@@ -18,56 +18,56 @@
 
     <ol>
         <div class="section">
-        <li>Introduction</li>
+        <li><a href="#anchor-introduction">Introduction</a></li>
         <ul>
-            <li>Purpose</li>
-            <li>Product scope</li>
-            <li>Product functions</li></l1>
+            <li><a href="#anchor-purpose">Purpose</a></li>
+            <li><a href="#anchor-purpose-scope">Product scope</a></li>
+            <li><a href="#anchor-product-functions">Product functions</a></l1>
         </ul>
         </div>
 
         <div class="section">
-        <li>Overall description</li>
+        <li><a href="#anchor-overall-description">Overall description</a></li>
         <ul>
-            <li>User Classes and Characteristics</li>
-            <li>Operating Environment </li>
-            <li>Design and Implementation Constraints</li>
-            <li>User documentation</li>
-            <li>Assumptions and Dependencies</li>
+            <li><a href="#anchor-user-classes">User Classes and Characteristics</a></li>
+            <li><a href="#anchor-operating-env">Operating Environment</a></li>
+            <li><a href="#anchor-design-constr">Design and Implementation Constraints</a></li>
+            <li><a href="#anchor-user-doc">User documentation</li>
+            <li><a href="#anchor-assum-dep">Assumptions and Dependencies</a></li>
         </ul>
         </div>
 
         <div class="section">
-        <li>External Interface Requirements</li>
+        <li><a id="#anchor-external">External Interface Requirements</li>
         <ul>
-            <li>Communication interfaces</li>
+            <li><a href="#anchor-comm">Communication interfaces</a></li>
         </ul>
         </div>
 
         <div class="section">
-        <li>System Features</li>
+        <li><a href="#anchor-sys">System Features</a></li>
         <ul>
-            <li>all features</li>
-            <li>Security requirements</li>
+            <li><a href="#anchor-features">all features</a></li>
+            <li><a href="#anchor-security">Security requirements</a></li>
         </ul>
         </div>
 
         <div class="section">
-        <li>Bibliography</li>
+        <li><a href="#anchor-bibli">Bibliography</a></li>
         </div>
     </ol>
 
 
-    <h2> Introduction </h2>
+    <h2 id="anchor-introduction">1. Introduction </h2>
 
-    <h3>Purpose</h3>
+    <h3 id="anchor-purpose">Purpose</h3>
     <p>Scopul principal al acestui document este de a oferi un exemplu de functionare a aplicatiei Smart Children Monitor.</p>
     
-    <h3>Product scope</h3>
+    <h3 id="anchor-purpose-scope">Product scope</h3>
     <p>Scopul proiectului este realizarea unui sistem Web de monitorizare in timp real a unui copil sau a unui grup de copii. </p>
     <p>Se vor oferi informatii despre locatia actuala, cu cine se intalneste, informatii privind posibile accidente sau situatii periculoase. </p>
 
-    <h3>Product functions</h3>
+    <h3 id="anchor-product-functions">Product functions</h3>
     <ul>
         <li>Crearea unui cont</li>
         <li>Conectarea unui utilizator la aplicatia</li>
@@ -82,25 +82,25 @@
 
 
 
-    <h2>Overall description</h2>
+    <h2 id="anchor-overall-description">2. Overall description</h2>
 
-    <h3>User classes and Characteristics</h3>
+    <h3 id="anchor-user-classes">User classes and Characteristics</h3>
     <p>TO DO</p>
 
-    <h3>Operating Environment</h3>
+    <h3 id="anchor-operating-env">Operating Environment</h3>
     <ul>
         <li>Aplicatia va rula pe un server in cloud</li>
         <li>Se va folosi Node.js pentru backend </li>
         <li>Pentru gestionarea bazei de date este folosit MongoDB</li>
     </ul>
 
-    <h3>Design and Implementation Constraints</h3>
+    <h3 id="anchor-design-constr">Design and Implementation Constraints</h3>
     <p>Limitari Hardware: Dispozitivul folosit pentru monitorizarea copilului are nevoie de o conexiune permanenta la internet pe baza unei cartele SIM.</p>
 
-    <h3>User documentation</h3>
+    <h3 id="anchor-user-doc">User documentation</h3>
     <p>Solutia finala va fi insotita de un manual de utilizare.</p>
 
-    <h3>Assumptions and Dependencies</h3>
+    <h3 id="anchor-assum-dep">Assumptions and Dependencies</h3>
     <ul>
         <li>MongoDB driver pentru Node.js</li>
         <li>In caz ca se va folosi un dispozitiv hardware pentru monitorizare se va folosi:
@@ -113,14 +113,14 @@
     </ul>
 
 
-    <h2>External Interface Requirements</h2>
+    <h2 id="anchor-external">3. External Interface Requirements</h2>
 
-    <h3>Communication interfaces</h3>
+    <h3 id="anchor-comm">Communication interfaces</h3>
     <p>Se va folosi HTTP pentru comunicarea intre frontend si backend.</p>
     
 
-    <h2>System Features</h2>
-    <p>Aceasta aplicatie contine urmatoarele functionalitati:</p>
+    <h2 id="anchor-sys">4. System Features</h2>
+    <p id="anchor-features">Aceasta aplicatie contine urmatoarele functionalitati:</p>
     <ul>
         <li>
             <h2>Vizualizare locatie in timp real a copilului:</h2>
@@ -154,11 +154,11 @@
         </li>
     </ul>
 
-    <h2>Security requirements</h2>
+    <h2 id="anchor-security">Security requirements</h2>
     <p>Implementarea protectiei impotriva atacurilor de tip „injection”.	</p>
 
 
-    <h2>Bibliography</h2>
+    <h2 id="anchor-bibli">5. Bibliography</h2>
     <ul>
         <li><a href="https://github.com/sparkfun/SparkFun_MAX3010x_Sensor_Library"> https://github.com/sparkfun/SparkFun_MAX3010x_Sensor_Library </a> </li>
         <li><a href="https://github.com/neosarchizo/TinyGPS">https://github.com/neosarchizo/TinyGPS</a></li>
