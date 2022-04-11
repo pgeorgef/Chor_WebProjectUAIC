@@ -1,5 +1,5 @@
 *{
-    font-family: "Lucida Console", "Courier New", monospace;
+    font-family: "Times New Roman", Times, serif;
 }
 
 body{
@@ -117,11 +117,6 @@ body{
     background: rgba(0, 0, 0, 0.5);
     z-index: 5000;
 }
-
-
-
-/*  ----------------------------------------------------------------------------------*/
-
 
 .container {
 	background-color: #EDF5E1;
