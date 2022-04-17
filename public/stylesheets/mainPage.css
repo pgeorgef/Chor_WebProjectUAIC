@@ -1,5 +1,5 @@
 *{
-    font-family: "Lucida Console", "Courier New", monospace;
+    font-family: "Times New Roman", Times, serif;
 }
 
 body{
@@ -42,10 +42,18 @@ body{
     margin-top: 7%;
 }
 
-.logoTitle{    
-    font-size: 2em;
+.logoTitle{  
+	animation: logoTitle 1s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+	animation-fill-mode: forwards;
+    font-size: 3em;
     width: 50vw;
 }
+
+@keyframes logoTitle {
+	0% {
+	  transform: translateY(-100vh);
+	}  
+  }
 
 .logoTitle .inline{
     display: flex;
@@ -60,7 +68,7 @@ body{
 
 .lastP{
     padding-left: 20%;
-    font-size: 0.7em;
+    font-size: 0.5em;
     margin: 0;
 }
 
@@ -117,11 +125,6 @@ body{
     background: rgba(0, 0, 0, 0.5);
     z-index: 5000;
 }
-
-
-
-/*  ----------------------------------------------------------------------------------*/
-
 
 .container {
 	background-color: #EDF5E1;

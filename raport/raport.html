@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<html lang="eng">
+
+<head>
+    <link href="stylesheets/raport.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="icon.png" />
+    <title>Raport Chor</title>
+</head>
+
+<body>
+
+    <div class="positie">
+    <h1>Raport Smart Children Monitor</h1>
+
+    <h2>Cuprins</h2>
+
+    <ol>
+        <div class="section">
+        <li><a href="#anchor-introduction">Introduction</a></li>
+        <ul>
+            <li><a href="#anchor-purpose">Purpose</a></li>
+            <li><a href="#anchor-purpose-scope">Product scope</a></li>  
+        </ul>
+        </div>
+
+        <div class="section">
+        <li><a href="#anchor-overall-description">Overall description</a></li>
+        <ul>
+            <li><a href="#anchor-product-functions">Product functions</a></l1>
+            <li><a href="#anchor-user-classes">User Classes and Characteristics</a></li>
+            <li><a href="#anchor-operating-env">Operating Environment</a></li>
+            <li><a href="#anchor-design-constr">Design and Implementation Constraints</a></li>
+            <li><a href="#anchor-user-doc">User documentation</li>
+            <li><a href="#anchor-interaction">User interaction</li>  
+            <li><a href="#anchor-assum-dep">Assumptions and Dependencies</a></li>
+        </ul>
+        </div>
+
+        <div class="section">
+        <li><a id="#anchor-external">External Interface Requirements</li>
+        <ul>
+            <li><a href="#anchor-software">Software interfaces</a></li>
+            <li><a href="#anchor-comm">Communication interfaces</a></li>
+        </ul>
+        </div>
+
+        <div class="section">
+        <li><a href="#anchor-sys">System Features</a></li>
+        <ul>
+            <li><a href="#anchor-features">All features</a></li>
+            <li><a href="#anchor-security">Security requirements</a></li>
+        </ul>
+        </div>
+
+        <div class="section">
+        <li><a href="#anchor-bibli">Bibliography</a></li>
+        </div>
+    </ol>
+
+
+    <h2 id="anchor-introduction">1. Introduction </h2>
+
+    <h3 id="anchor-purpose">Purpose</h3>
+    <p>Scopul principal al acestui document este de a oferi un exemplu de functionare a aplicatiei Smart Children Monitor.</p>
+    
+    <h3 id="anchor-purpose-scope">Product scope</h3>
+    <p>Scopul proiectului este realizarea unui sistem Web de monitorizare in timp real a unui copil sau a unui grup de copii. </p>
+    <p>Se vor oferi informatii despre locatia actuala, cu cine se intalneste, informatii privind posibile accidente sau situatii periculoase. </p>
+
+
+    <h2 id="anchor-overall-description">2. Overall description</h2>
+
+    <h3 id="anchor-product-functions">Product functions</h3>
+    <ul>
+        <li>Crearea unui cont</li>
+        <li>Conectarea unui utilizator la aplicatia</li>
+        <li>Adaugarea unui copil pentru a putea fi monitorizat</li>
+        <li>Posibilitatea de a adauga un copil la “favoriti” pentru a avea acces mai rapid</li>
+        <li>Stergerea unui copil din sistemul de monitorizare</li>
+        <li>Accesarea individuala a paginii fiecarui copil</li>
+        <li>Vizualizare locatie in timp real a copilului</li>
+        <li>Primirea de alerte sau evenimente importante ( deplasarea la o distanta mai mare de x metri, intalnirea cu alt copil)</li>
+        <li>Vizualizarea informatilor de la senzori ( locatia, camera live, puls, starea de miscare, temperatura)</li>
+    </ul>
+
+    <h3 id="anchor-user-classes">User classes and Characteristics</h3>
+    <p>In cadrul aplicatiei web exista doua tipuri de actori:</p>
+    <p>Guest - actor care poate accesa doar pagina principala. Acesta are doua posibilitati: de a se autentifica, sau de a-si crea un cont de utilizator.</p>
+    <img src="assets/guest.png" >
+    <p>Dupa autentificare/inregistrare, actorul "guest" va deveni "utilizator".</p>
+    <p>User - actor care poate accesa toate functionalitatile aplicatiei web.</p>
+    <img src="assets/user.png">
+
+    <h3 id="anchor-operating-env">Operating Environment</h3>
+    <ul>
+        <li>Aplicatia va rula pe un server in cloud</li>
+        <li>Se va folosi Node.js pentru backend </li>
+        <li>Pentru gestionarea bazei de date este folosit MongoDB</li>
+    </ul>
+
+    <h3 id="anchor-design-constr">Design and Implementation Constraints</h3>
+    <p>Limitari Hardware: Dispozitivul folosit pentru monitorizarea copilului are nevoie de o conexiune permanenta la internet pe baza unei cartele SIM.</p>
+
+    <h3 id="anchor-user-doc">User documentation</h3>
+    <p>Solutia finala va fi insotita de un manual de utilizare.</p>
+
+    
+    <h3 id="anchor-interaction"> User interaction </h3>
+
+    <p>Pentru o utilizare corecta a interfetei urmariti urmatorii pasi:</p>
+    <div class="interaction">
+        <img src="assets/maibPage1.png">
+
+        <p>1. "Login" - dupa introducerea datelor se realizeaza autentificarea unui user si redirectionarea catre pagina principala. </p>
+        <p>2. "Join"  - dupa apasarea butonului va aparea optiunea de a te inregistra. </p>
+
+        <img src="assets/mainPage2.png">
+
+        <p>3. "Connect"  - dupa apasarea butonului va aparea optiunea de a te autentifica. </p>
+        <p>4. "Register" - dupa introducerea datelor se realizeaza inregistrarea unui user si redirectionarea catre pagina principala. </p>
+        <p>5. "About" - dupa apasarea butonului va aparea un popup care ofera informatii despre aplicatie. </p>
+
+        <img src="assets/childrenPage.png">
+
+        <p>6. "Star" - dupa apasarea pe steluta copilul va fi adaugat la lista de favoriti. </p>
+        <p>7. "Remove" - dupa apasarea pe delete se va cere o confirmare pentru stergerea copilului. </p>
+        <p>8. "AddChild" - dupa apasarea pe buton va aparea un formular pentru adaugarea unui copil. </p>
+        <p>13. "Child image" - dupa apasarea pe imagine se va redirectiona la pagina copilului.</p> 
+
+        <img src="assets/childPage.png">
+
+        <p>9. "Profile" - dupa apasarea pe buton se va redirectiona catre pagina generala a copilului. </p>
+        <p>10. "Map" - dupa apasarea pe buton se va redirectiona catre pagina unde este afisata locatia copilului.</p>
+        <p>11. "Camera" - dupa apasarea pe buton se va redirectiona catre pagina unde este afisata camera live a copilului.</p>
+        
+        <img src="assets/mapPage.png">
+        <img src="assets/cameraPage.png">
+    </div>
+
+    <h3 id="anchor-assum-dep">Assumptions and Dependencies</h3>
+    <ul>
+        <li>MongoDB driver pentru Node.js</li>
+        <li>In caz ca se va folosi un dispozitiv hardware pentru monitorizare se va folosi:
+            <ul>
+                <li>SparkFun_MAX3010x_Sensor_Library</li>
+                <li>TinyGPS</li>
+                <li>mpu6050</li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <h2 id="anchor-external">3. External Interface Requirements</h2>
+
+    <h3 id="anchor-software">Software interfaces</h3>
+    <p>In cadrul aplicatiei vom folosi arhitectura MVC si abordare bazata pe microservicii.</p>
+
+    <h3 id="anchor-comm">Communication interfaces</h3>
+    <p>Se va folosi HTTP pentru comunicarea intre frontend si backend.</p>
+    
+
+    <h2 id="anchor-sys">4. System Features</h2>
+    <p id="anchor-features">Aceasta aplicatie contine urmatoarele functionalitati:</p>
+    <ul>
+        <li>
+            <h2>Vizualizare locatie in timp real a copilului:</h2>
+            <ul>
+            <li>Prioritatea acestei functionalitati este ridicata.</li>
+            <li>Aceasta functionalitate este accesata prin intermediul paginii personale a unui copil de catre un parinte/tutore care a adaugat copilul. </li>
+            <li>Locatia este reprezentata pe o harta, atat cat si prin afisarea adresei in format text.</li>
+            </ul>
+        </li>
+        <li>
+            <h2>Primirea de alerte sau evenimente</h2>
+            <ul>
+                <li>Prioriteatea acestei functionalitati este ridicata.</li>
+                <li>Aceasta functionalitate va functiona in fiecare pagina astfel incat alerta va aparea in format de popup notification.</li>
+                <li>Aceste alerte vor aparea in momentul in care se vor provoca anumite accidente.</li>
+            </ul>
+        </li>
+        <li>
+            <h2>Vizualizare informatii oferite de catre senzori</h2>
+            <ul>
+                <li>Prioritatea acestei functionalitati este medie.</li>
+                <li>Aceasta functionalitatea permite utillizatorului sa vizualizeze pulsul, temperatura sau viteza cu care se deplaseaza copilul monitorizat.</li>
+            </ul>
+        </li>
+        <li>
+            <h2>Crearea unei liste de favoriti</h2>
+            <ul>
+                <li>Prioritatea acestei functionalitati este scazuta</li>
+                <li>Aceasta functionalitate permite utilizatorului sa creeze o lista unde poate marca copii ca favoriti, putand sa ii acceseze mult mai rapid.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2 id="anchor-security">Security requirements</h2>
+    <p>Implementarea protectiei impotriva atacurilor de tip „injection”.	</p>
+
+
+    <h2 id="anchor-bibli">5. Bibliography</h2>
+    <ul>
+        <li><a href="https://github.com/sparkfun/SparkFun_MAX3010x_Sensor_Library"> https://github.com/sparkfun/SparkFun_MAX3010x_Sensor_Library </a> </li>
+        <li><a href="https://github.com/neosarchizo/TinyGPS">https://github.com/neosarchizo/TinyGPS</a></li>
+        <li><a href="https://github.com/ElectronicCats/mpu6050">https://github.com/ElectronicCats/mpu6050</a></li>
+        <li><a href="https://github.com/rick4470/IEEE-SRS-Tempate">https://github.com/rick4470/IEEE-SRS-Tempate</a></li>
+        <li><a href="https://w3c.github.io/scholarly-html/">https://w3c.github.io/scholarly-html/</a></li>
+    </ul>
+
+</div>
+
+</body>
+</html>
