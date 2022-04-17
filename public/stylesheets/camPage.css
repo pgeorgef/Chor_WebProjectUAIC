@@ -2,6 +2,11 @@ body{
     background-color: #5CDB95;
 }
 
+.logout{
+    height: 3em;
+    width: 3em;
+}
+
 .dotHome {
     position: absolute;
     opacity: 0.6;
