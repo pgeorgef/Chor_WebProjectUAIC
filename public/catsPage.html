@@ -14,19 +14,48 @@
     <template id="cat-card">
         <div class="card-container">
             <link href="./stylesheets/catsPage.css" rel="stylesheet">
-            <img src="https://media.4-paws.org/a/5/3/7/a537f08d227326121b80790ba54036498668c9c8/VIER%20PFOTEN_2016-07-08_011-4993x3455-1920x1329.jpg" class="card-image">
-            <p>Pisicuta aiurita</p>
+            <input type="image" src="./assets/deleteButton.png" class="delete-button" onclick="deleteChild(event)"/>
+            <input type="image" src="./assets/star-empty.png" class="favorite-button" onclick="favoriteChild(event)"/>
+            <!--<img slot="cat-image" src="" class="card-image">-->
+            <slot name="cat-image">need-image</slot>
+            <slot name="cat-name">need name</slot> 
         </div>
 
     </template>
-
+    <a href="mainPage.html">
+        <input type="image" src="./assets/logout.png" class="logout">
+    </a>
+    <p class="logout-text"> Log Out</p>
     <div class="grid-container">
-        <!--<cat-card class="catplm"></cat-card>-->
-        <!--<cat-card class="cat2plm"></cat-card>-->
+    </div>
+    <div class="addChildPopup">
+        <div class="formPopup" id="popupForm">
+            <form class="formContainer">
+                <label for="frst">
+                    <strong>First Name</strong>
+                </label>
+                <input type="text" id="firstName" placeholder="First Name" name="firstName" required>
+                <label for="last">
+                    <strong>Last Name</strong>
+                </label>
+                <input type="text" id="lastName" placeholder="Last Name" name="firstName" required>
+                <label for="addr">
+                    <strong>Address</strong>
+                </label>
+                <input type="text" id="address" placeholder="Address" name="firstName" required>
+                <label for="birth">
+                    <strong>Birth Date</strong>
+                </label>
+                <br>
+                <input type="date" id="birthday" name="birthDay" required>
+                <br>
+                <button type="submit" class="submitAddChild"> Add </button>
+                <button type="button" class="cancelButton" onclick="closeForm()">Close</button>
+            </form>
+        </div>
 
     </div>
-
-    
+    <div id="overlay"></div>
 
 
 </html>
