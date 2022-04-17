@@ -55,7 +55,14 @@ function deleteChild(){
     confirm("Are you sure you want to delete this child?")
 }
 function favoriteChild(e){
-    e.target.src = e.target.src.replace('star-empty', 'star-full')
+    if(e.target.src.includes('star-empty'))
+    {
+        e.target.src = e.target.src.replace('star-empty', 'star-full');
+    }
+    else
+    {
+        e.target.src = e.target.src.replace('star-full', 'star-empty');
+    }
 }
 window.onload = function(){
     generateCards();
