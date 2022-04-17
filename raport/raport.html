@@ -33,6 +33,7 @@
             <li><a href="#anchor-operating-env">Operating Environment</a></li>
             <li><a href="#anchor-design-constr">Design and Implementation Constraints</a></li>
             <li><a href="#anchor-user-doc">User documentation</li>
+            <li><a href="#anchor-interaction">User interaction</li>  
             <li><a href="#anchor-assum-dep">Assumptions and Dependencies</a></li>
         </ul>
         </div>
@@ -40,6 +41,7 @@
         <div class="section">
         <li><a id="#anchor-external">External Interface Requirements</li>
         <ul>
+            <li><a href="#anchor-software">Software interfaces</a></li>
             <li><a href="#anchor-comm">Communication interfaces</a></li>
         </ul>
         </div>
@@ -47,7 +49,7 @@
         <div class="section">
         <li><a href="#anchor-sys">System Features</a></li>
         <ul>
-            <li><a href="#anchor-features">all features</a></li>
+            <li><a href="#anchor-features">All features</a></li>
             <li><a href="#anchor-security">Security requirements</a></li>
         </ul>
         </div>
@@ -104,6 +106,39 @@
     <h3 id="anchor-user-doc">User documentation</h3>
     <p>Solutia finala va fi insotita de un manual de utilizare.</p>
 
+    
+    <h3 id="anchor-interaction"> User interaction </h3>
+
+    <p>Pentru o utilizare corecta a interfetei urmariti urmatorii pasi:</p>
+    <div class="interaction">
+        <img src="assets/maibPage1.png">
+
+        <p>1. "Login" - dupa introducerea datelor se realizeaza autentificarea unui user si redirectionarea catre pagina principala. </p>
+        <p>2. "Join"  - dupa apasarea butonului va aparea optiunea de a te inregistra. </p>
+
+        <img src="assets/mainPage2.png">
+
+        <p>3. "Connect"  - dupa apasarea butonului va aparea optiunea de a te autentifica. </p>
+        <p>4. "Register" - dupa introducerea datelor se realizeaza inregistrarea unui user si redirectionarea catre pagina principala. </p>
+        <p>5. "About" - dupa apasarea butonului va aparea un popup care ofera informatii despre aplicatie. </p>
+
+        <img src="assets/childrenPage.png">
+
+        <p>6. "Star" - dupa apasarea pe steluta copilul va fi adaugat la lista de favoriti. </p>
+        <p>7. "Remove" - dupa apasarea pe delete se va cere o confirmare pentru stergerea copilului. </p>
+        <p>8. "AddChild" - dupa apasarea pe buton va aparea un formular pentru adaugarea unui copil. </p>
+        <p>13. "Child image" - dupa apasarea pe imagine se va redirectiona la pagina copilului.</p> 
+
+        <img src="assets/childPage.png">
+
+        <p>9. "Profile" - dupa apasarea pe buton se va redirectiona catre pagina generala a copilului. </p>
+        <p>10. "Map" - dupa apasarea pe buton se va redirectiona catre pagina unde este afisata locatia copilului.</p>
+        <p>11. "Camera" - dupa apasarea pe buton se va redirectiona catre pagina unde este afisata camera live a copilului.</p>
+        
+        <img src="assets/mapPage.png">
+        <img src="assets/cameraPage.png">
+    </div>
+
     <h3 id="anchor-assum-dep">Assumptions and Dependencies</h3>
     <ul>
         <li>MongoDB driver pentru Node.js</li>
@@ -118,6 +153,9 @@
 
 
     <h2 id="anchor-external">3. External Interface Requirements</h2>
+
+    <h3 id="anchor-software">Software interfaces</h3>
+    <p>In cadrul aplicatiei vom folosi arhitectura MVC si abordare bazata pe microservicii.</p>
 
     <h3 id="anchor-comm">Communication interfaces</h3>
     <p>Se va folosi HTTP pentru comunicarea intre frontend si backend.</p>
