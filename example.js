@@ -1,18 +1,51 @@
 const { Server } = require('./lib/server');
 const { Router } = require('./lib/router');
+const { sendFileRes } = require('./lib/utils.js');
 
 const main = async () => {
   const app = new Server(80);
   const routerMarcel = new Router();
   const routerPrincipal = new Router();
+
   routerPrincipal.get('/', (req, res) => {
-    console.log(' in a');
-    res.send('hey');
+    sendFileRes(res,'./public/mainPage.html', 'text/html');
   });
+
+  routerPrincipal.get('/stylesheets/mainPage.css', (req, res) => {
+    sendFileRes(res, './public/stylesheets/mainPage.css', 'text/css');
+  });
+  
+  routerPrincipal.get('/scripts/mainPage.js', (req, res) => {
+    sendFileRes(res, './public/scripts/mainPage.js', 'text/javascript');
+  });
+
+  routerPrincipal.get('/assets/logo.png', (req, res) => {
+    sendFileRes(res, './public/assets/logo.png', 'image/png');
+  });
+
+  routerPrincipal.post('/', (req, res) => {
+ 
+    let data = '';
+    let chunks = [];
+
+    req.on('data', chunk => {
+      data += chunk;
+    });
+    req.on('end', () => {
+
+      data.split('&').forEach(element => {
+        chunks.push(element.split('=').at(1))
+      })
+
+      console.log(chunks);
+      sendFileRes(res,'./public/mainPage.html', 'text/html');
+    });
+  });
+
   routerMarcel.get('/create', (req, res, next) => {
     console.log('Looged');
     next();
-    // res.send('ai pierdut din prima mihai');
+    res.send('ai pierdut din prima mihai');
   });
   routerMarcel.get('/create', (req, res, next) => {
     console.log('in middleware-ul urmator');
@@ -35,6 +68,7 @@ const main = async () => {
       user: 'marcel',
       age: 18,
     });
+    res.end();
   });
 
   routerMarcel.use((req, res, next) => {
