@@ -1,20 +1,23 @@
+const mongoose = require('mongoose');
 const { Server } = require('./lib/server');
 const { Router } = require('./lib/router');
-const { sendFileRes } = require('./lib/utils.js');
+
+const { sendFileRes, cors } = require('./lib/utils');
 
 const main = async () => {
+  await mongoose.connect('mongodb://localhost:27017/test');
   const app = new Server(80);
   const routerMarcel = new Router();
   const routerPrincipal = new Router();
 
   routerPrincipal.get('/', (req, res) => {
-    sendFileRes(res,'./public/mainPage.html', 'text/html');
+    sendFileRes(res, './public/mainPage.html', 'text/html');
   });
 
   routerPrincipal.get('/stylesheets/mainPage.css', (req, res) => {
     sendFileRes(res, './public/stylesheets/mainPage.css', 'text/css');
   });
-  
+
   routerPrincipal.get('/scripts/mainPage.js', (req, res) => {
     sendFileRes(res, './public/scripts/mainPage.js', 'text/javascript');
   });
@@ -22,24 +25,17 @@ const main = async () => {
   routerPrincipal.get('/assets/logo.png', (req, res) => {
     sendFileRes(res, './public/assets/logo.png', 'image/png');
   });
+  routerPrincipal.get('/public/icon.png', (req, res) => {
+    sendFileRes(res, './public/icon.png', 'image/png');
+  });
 
-  routerPrincipal.post('/', (req, res) => {
- 
-    let data = '';
-    let chunks = [];
+  routerPrincipal.post('/register', async (req, res) => {
+    const Cat = mongoose.model('Cat', { name: String });
 
-    req.on('data', chunk => {
-      data += chunk;
-    });
-    req.on('end', () => {
-
-      data.split('&').forEach(element => {
-        chunks.push(element.split('=').at(1))
-      })
-
-      console.log(chunks);
-      sendFileRes(res,'./public/mainPage.html', 'text/html');
-    });
+    const kitty = new Cat({ name: 'sniggers' });
+    await kitty.save();
+    console.log(JSON.parse(req.body));
+    res.send(req.body);
   });
 
   routerMarcel.get('/create', (req, res, next) => {
@@ -109,6 +105,7 @@ const main = async () => {
     next();
     // res.send('am omorat tot');
   });
+  app.use(cors);
 };
 
 main();

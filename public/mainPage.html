@@ -8,6 +8,7 @@
     <link rel="shortcut icon" href="icon.png" />
     <title>Smart Cat Monitor</title>
     <script defer src="./scripts/mainPage.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -23,7 +24,7 @@
 
         <div class="container" id="container">
             <div class="form-container sign-up-container">
-                <form action="/" method="post">
+                <form onsubmit="register(event)">
                     <h1>Create Account</h1>
                     <input type="text" placeholder="first name" name="firstName" />
                     <input type="text" placeholder="last name" name="lastName"/>
