@@ -40,21 +40,12 @@ const register = async (event) => {
     console.log(error);
   }
   console.log(response.data);
-  if( response.data == 'succes' ){
-    alert('Successful registration');
-  }
-  else if( response.data == 'mail' ){
-    alert('Mail already taken!');
-  }
-  else if( response.data == 'username' ) {
-    alert('Username already taken!');
-  }
-  else if( response.data == 'validation' ){
-    alert('All form fields must be completed.')
+  if (Object.prototype.hasOwnProperty.call(response.data, 'err')) {
+    alert(response.data.err);
   }
 };
 
-const login = async(event) => {
+const login = async (event) => {
 
-  //TO DO
+  // TO DO
 };

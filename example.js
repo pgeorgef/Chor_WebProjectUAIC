@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const { Server } = require('./lib/server');
 const { Router } = require('./lib/router');
-const { sendFileRes, cors, validateMail, validateUsername, saveUser } = require('./lib/utils');
+const {
+  sendFileRes, cors, validateMail, validateUsername, saveUser,
+} = require('./lib/utils');
 const User = require('./models/user');
 
 const dbURI = 'mongodb+srv://chor:ct7H1gFt3PuE5vrL@cluster0.boslzhe.mongodb.net/?retryWrites=true&w=majority';
@@ -32,18 +34,19 @@ const main = async () => {
   });
 
   routerPrincipal.post('/register', async (req, res) => {
-
-    if( await validateUsername(JSON.parse(req.body).userName, User) ){
-      res.send('username');
-      return;
+    if (await validateUsername(JSON.parse(req.body).userName, User)) {
+      return res.json({ err: 'Username already taken!' });
     }
 
-    if( await validateMail(JSON.parse(req.body).email, User) ){
-      res.send('mail');
-      return;
+    if (await validateMail(JSON.parse(req.body).email, User)) {
+      return res.json({ err: 'Mail already taken!' });
     }
-    
-    saveUser(res, req, User);
+    try {
+      await saveUser(res.body);
+      return res.json({ success: 'user saved' });
+    } catch (error) {
+      return res.json({ err: 'err while creating user' });
+    }
   });
 
   routerMarcel.get('/create', (req, res, next) => {
