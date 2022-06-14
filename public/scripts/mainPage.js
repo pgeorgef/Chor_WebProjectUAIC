@@ -32,13 +32,14 @@ const register = async (event) => {
     email: document.getElementsByName('email')[0].value,
     pass: document.getElementsByName('password')[0].value,
   };
+  document.getElementById('registerForm').reset();
   let response;
   try {
     response = await axios.post('http://127.0.0.1/register', registerInfo);
   } catch (error) {
     console.log(error);
   }
-  console.log('ham')
+  console.log(response);
   //console.log(registerInfo);
 };
 

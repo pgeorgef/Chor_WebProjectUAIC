@@ -39,6 +39,7 @@ const main = async () => {
     const user = new User(JSON.parse(req.body)); 
     //await user.save();
     console.log(user);
+    res.writeHead(200);
     res.end('succes');
   });
 
