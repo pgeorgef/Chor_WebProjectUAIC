@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 const { Server } = require('./lib/server');
 const { Router } = require('./lib/router');
-const { sendFileRes, cors, validateMail, validateUsername } = require('./lib/utils');
+const { sendFileRes, cors, validateMail, validateUsername, saveUser } = require('./lib/utils');
 const User = require('./models/user');
-const crypto = require('crypto')
 
 const dbURI = 'mongodb+srv://chor:ct7H1gFt3PuE5vrL@cluster0.boslzhe.mongodb.net/?retryWrites=true&w=majority';
 
@@ -44,11 +43,7 @@ const main = async () => {
       return;
     }
     
-    const user = new User(JSON.parse(req.body));
-    user.pass = crypto.createHash('sha256').update(user.pass).digest('hex');
-    //await user.save();
-    console.log(user);
-    res.send('succes');
+    saveUser(res, req, User);
   });
 
   routerMarcel.get('/create', (req, res, next) => {

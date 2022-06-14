@@ -49,6 +49,9 @@ const register = async (event) => {
   else if( response.data == 'username' ) {
     alert('Username already taken!');
   }
+  else if( response.data == 'validation' ){
+    alert('All form fields must be completed.')
+  }
 };
 
 const login = async(event) => {
