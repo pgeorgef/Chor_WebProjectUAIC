@@ -38,6 +38,11 @@ const register = async (event) => {
   } catch (error) {
     console.log(error);
   }
-  console.log(response);
-  // console.log(registerInfo);
+  console.log('ham')
+  //console.log(registerInfo);
+};
+
+const login = async(event) => {
+
+  //TO DO
 };

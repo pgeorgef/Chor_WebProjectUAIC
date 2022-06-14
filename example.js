@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
 const { Server } = require('./lib/server');
 const { Router } = require('./lib/router');
+const { sendFileRes, cors, validateMail, validateUsername } = require('./lib/utils');
+const User = require('./models/user');
 
-const { sendFileRes, cors } = require('./lib/utils');
+const dbURI = 'mongodb+srv://chor:ct7H1gFt3PuE5vrL@cluster0.boslzhe.mongodb.net/?retryWrites=true&w=majority';
 
 const main = async () => {
-  await mongoose.connect('mongodb://localhost:27017/test');
+  await mongoose.connect(dbURI);
   const app = new Server(80);
   const routerMarcel = new Router();
   const routerPrincipal = new Router();
@@ -30,12 +32,14 @@ const main = async () => {
   });
 
   routerPrincipal.post('/register', async (req, res) => {
-    const Cat = mongoose.model('Cat', { name: String });
 
-    const kitty = new Cat({ name: 'sniggers' });
-    await kitty.save();
-    console.log(JSON.parse(req.body));
-    res.send(req.body);
+    validateUsername(res, JSON.parse(req.body).userName, User);
+    validateMail(res, JSON.parse(req.body).email, User);
+
+    const user = new User(JSON.parse(req.body)); 
+    //await user.save();
+    console.log(user);
+    res.end('succes');
   });
 
   routerMarcel.get('/create', (req, res, next) => {
