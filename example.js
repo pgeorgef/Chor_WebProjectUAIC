@@ -3,6 +3,7 @@ const { Server } = require('./lib/server');
 const { Router } = require('./lib/router');
 const { sendFileRes, cors, validateMail, validateUsername } = require('./lib/utils');
 const User = require('./models/user');
+const crypto = require('crypto')
 
 const dbURI = 'mongodb+srv://chor:ct7H1gFt3PuE5vrL@cluster0.boslzhe.mongodb.net/?retryWrites=true&w=majority';
 
@@ -33,14 +34,21 @@ const main = async () => {
 
   routerPrincipal.post('/register', async (req, res) => {
 
-    validateUsername(res, JSON.parse(req.body).userName, User);
-    validateMail(res, JSON.parse(req.body).email, User);
+    if( await validateUsername(JSON.parse(req.body).userName, User) ){
+      res.send('username');
+      return;
+    }
 
-    const user = new User(JSON.parse(req.body)); 
+    if( await validateMail(JSON.parse(req.body).email, User) ){
+      res.send('mail');
+      return;
+    }
+    
+    const user = new User(JSON.parse(req.body));
+    user.pass = crypto.createHash('sha256').update(user.pass).digest('hex');
     //await user.save();
     console.log(user);
-    res.writeHead(200);
-    res.end('succes');
+    res.send('succes');
   });
 
   routerMarcel.get('/create', (req, res, next) => {

@@ -39,8 +39,16 @@ const register = async (event) => {
   } catch (error) {
     console.log(error);
   }
-  console.log(response);
-  //console.log(registerInfo);
+  console.log(response.data);
+  if( response.data == 'succes' ){
+    alert('Successful registration');
+  }
+  else if( response.data == 'mail' ){
+    alert('Mail already taken!');
+  }
+  else if( response.data == 'username' ) {
+    alert('Username already taken!');
+  }
 };
 
 const login = async(event) => {
