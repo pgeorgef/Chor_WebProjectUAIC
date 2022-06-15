@@ -11,6 +11,14 @@ const childSchema = new Schema({
     type: String,
     required: true,
   },
+  adress: {
+    type: String,
+    required: true,
+  },
+  dateOfBirth: {
+    type: Date,
+    required: true,
+  }
 }, { timestamps: true });
 
 const Child = mongoose.model('Child', childSchema);
