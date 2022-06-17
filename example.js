@@ -73,7 +73,7 @@ const main = async () => {
     }
 
     const accessToken = jwt.sign({userName: user.userName}, process.env.ACCESS_TOKEN_SECRET, {expiresIn:'20s'});
-    const refreshToken = jwt.sign({userName: user.userName}, process.env.REFRESH_TOKEN_SECRET);
+    //const refreshToken = jwt.sign({userName: user.userName}, process.env.REFRESH_TOKEN_SECRET);
     res.json({ access: accessToken, refresh: refreshToken});
   });
 
