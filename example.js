@@ -1,8 +1,10 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 const { Server } = require('./lib/server');
 const { Router } = require('./lib/router');
 const {
-  sendFileRes, cors, validateMail, validateUsername, saveUser,
+  sendFileRes, cors, validateMail, validateUsername, saveUser, validateLogin,
 } = require('./lib/utils');
 const User = require('./models/user');
 
@@ -47,6 +49,32 @@ const main = async () => {
     } catch (error) {
       return res.json({ err: 'err while creating user' });
     }
+  });
+
+  routerPrincipal.post('/verify', (req, res) => {
+
+    console.log(JSON.parse(req.body).token);
+    const tip = JSON.parse(req.body).token
+    try{
+      jwt.verify(tip, process.env.ACCESS_TOKEN_SECRET, {expiresIn:'20s'}, (err, name) => {
+        if(err) return res.send(err);
+        res.send(name.userName);
+      })
+    }catch(err){
+      res.send('session expired');
+    }
+  });
+
+  routerPrincipal.post('/login', async(req, res) => {
+ 
+    let user;
+    if( ( user = await validateLogin(JSON.parse(req.body).userName, JSON.parse(req.body).pass, User)) == null ){
+      return res.json({err: 'username/password inccorect!'});
+    }
+
+    const accessToken = jwt.sign({userName: user.userName}, process.env.ACCESS_TOKEN_SECRET, {expiresIn:'20s'});
+    const refreshToken = jwt.sign({userName: user.userName}, process.env.REFRESH_TOKEN_SECRET);
+    res.json({ access: accessToken, refresh: refreshToken});
   });
 
   routerMarcel.get('/create', (req, res, next) => {

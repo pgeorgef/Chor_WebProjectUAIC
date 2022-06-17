@@ -47,5 +47,20 @@ const register = async (event) => {
 
 const login = async (event) => {
 
-  // TO DO
+  event.preventDefault();
+  const loginInfo = {
+    userName: document.getElementById('loginUserName').value,
+    pass: document.getElementById('loginPass').value,
+  };
+  document.getElementById('loginForm').reset();
+  let response;
+  try{
+    response = await axios.post('http://127.0.0.1/login', loginInfo);
+  }catch (error) {
+    console.log(error);
+  }
+  console.log(response.data);
+  if (Object.prototype.hasOwnProperty.call(response.data, 'err')) {
+    alert(response.data.err);
+  }
 };

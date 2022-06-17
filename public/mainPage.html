@@ -5,7 +5,6 @@
 <head>
     <link href="./stylesheets/mainPage.css" rel="stylesheet">
     <meta charset="utf-8">
-    <link rel="shortcut icon" href="icon.png" />
     <title>Smart Cat Monitor</title>
     <script defer src="./scripts/mainPage.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -35,15 +34,11 @@
                 </form>
             </div>
             <div class="form-container sign-in-container">
-                <form onsubmit="login(event)" autocomplete="off">
+                <form onsubmit="login(event)" autocomplete="off" id="loginForm">
                     <h1>Login</h1>
-                    <input type="email" placeholder="Email" />
-                    <input type="password" placeholder="Password" />
-
-                    <a href="catsPage.html">
-                        <input type="button" value="Login" class="login">
-                    </a>
-                    <!--<button><a href="catsPage.html">Login</a></button> -->
+                    <input type="username" placeholder="Username" id="loginUserName" required/>
+                    <input type="password" placeholder="Password" id="loginPass" required/>
+                    <input type="submit" value="Login" class="login">
                 </form>
             </div>
             <div class="overlay-container">
