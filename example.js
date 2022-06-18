@@ -7,6 +7,7 @@ const {
   sendFileRes, cors, validateMail, validateUsername, saveUser, validateLogin,
 } = require('./lib/utils');
 const User = require('./models/user');
+const cookieParser = require("cookie-parser");
 
 const dbURI = 'mongodb+srv://chor:ct7H1gFt3PuE5vrL@cluster0.boslzhe.mongodb.net/?retryWrites=true&w=majority';
 
@@ -36,6 +37,8 @@ const main = async () => {
   });
 
   routerPrincipal.post('/register', async (req, res) => {
+    //TO DO - verify first/last name ( doar litere + spatii )
+    //TO DO - verify password (doar litere, cifre, si alte simboluri? sqlinsertio?)
     if (await validateUsername(JSON.parse(req.body).userName, User)) {
       return res.json({ err: 'Username already taken!' });
     }
@@ -65,6 +68,8 @@ const main = async () => {
     }
   });
 
+  //to add in middleware
+
   routerPrincipal.post('/login', async(req, res) => {
  
     let user;
@@ -74,8 +79,34 @@ const main = async () => {
 
     const accessToken = jwt.sign({userName: user.userName}, process.env.ACCESS_TOKEN_SECRET, {expiresIn:'20s'});
     //const refreshToken = jwt.sign({userName: user.userName}, process.env.REFRESH_TOKEN_SECRET);
-    res.json({ access: accessToken, refresh: refreshToken});
+    //res.json({ token: accessToken });
+    res.writeHead(200, {
+      'Set-Cookie':'token='+accessToken+'; Path=/token; expires='+new Date(new Date().getTime()+86409000).toUTCString(),
+      "Content-Type": `text/plain`
+    });
+    res.send("success");
   });
+
+  routerPrincipal.post('/token', (req,res) => {
+    let list = {};
+    const cookieHeader = req.headers?.cookie;
+    if (!cookieHeader) return list;
+
+    cookieHeader.split(`;`).forEach(function(cookie) {
+        let [ name, ...rest] = cookie.split(`=`);
+        name = name?.trim();
+        if (!name) return;
+        const value = rest.join(`=`).trim();
+        if (!value) return;
+        list[name] = decodeURIComponent(value);
+    });
+
+    console.log(list.token);
+
+    //TO DO - verify the token using verify
+    res.send('gj my nigga. token: \n' + list.token);
+  });
+  //to destroy https://stackoverflow.com/questions/27978868/destroy-cookie-nodejs
 
   routerMarcel.get('/create', (req, res, next) => {
     console.log('Looged');
@@ -91,7 +122,6 @@ const main = async () => {
     console.log('in create');
     res.send('bun');
   });
-
   routerMarcel.get('/pisicuti', (req, res) => {
     console.log('pisicuti');
     res.send('pisicuti');
@@ -105,13 +135,11 @@ const main = async () => {
     });
     res.end();
   });
-
   routerMarcel.use((req, res, next) => {
     console.log('in marcelul general');
     res.send('s-a blocat in marcelul general');
     // next();
   });
-
   routerMarcel.post('/midd', (req, res, next) => {
     console.log('in primul middlware trece mai departe');
     next();
@@ -126,7 +154,6 @@ const main = async () => {
     console.log('in midd');
     res.send('buna midd');
   });
-
   const routerLavinia = new Router();
   routerLavinia.get('/lavinia', (req, res) => {
     res.json({
