@@ -15,5 +15,6 @@ module.exports = {
     'no-restricted-syntax': 'off',
     'no-await-in-loop': 'off',
     'no-loop-func': 'off',
+    'max-len': ['error', { code: 160 }],
   },
 };
