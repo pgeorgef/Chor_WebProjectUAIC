@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { Server } = require('./lib/server');
 const { Router } = require('./lib/router');
 const {
-  sendFileRes, cors, validateMail, validateUsername, saveUser, validateLogin,
+  sendFileRes, cors, validateMail, validateUsername, saveUser, validateLogin, verifyToken
 } = require('./lib/utils');
 const User = require('./models/user');
 const cookieParser = require("cookie-parser");
@@ -54,22 +54,6 @@ const main = async () => {
     }
   });
 
-  routerPrincipal.post('/verify', (req, res) => {
-
-    console.log(JSON.parse(req.body).token);
-    const tip = JSON.parse(req.body).token
-    try{
-      jwt.verify(tip, process.env.ACCESS_TOKEN_SECRET, {expiresIn:'20s'}, (err, name) => {
-        if(err) return res.send(err);
-        res.send(name.userName);
-      })
-    }catch(err){
-      res.send('session expired');
-    }
-  });
-
-  //to add in middleware
-
   routerPrincipal.post('/login', async(req, res) => {
  
     let user;
@@ -77,17 +61,19 @@ const main = async () => {
       return res.json({err: 'username/password inccorect!'});
     }
 
-    const accessToken = jwt.sign({userName: user.userName}, process.env.ACCESS_TOKEN_SECRET, {expiresIn:'20s'});
+    const accessToken = jwt.sign({userName: user.userName}, process.env.ACCESS_TOKEN_SECRET, {expiresIn:'1m'});
     //const refreshToken = jwt.sign({userName: user.userName}, process.env.REFRESH_TOKEN_SECRET);
     //res.json({ token: accessToken });
     res.writeHead(200, {
-      'Set-Cookie':'token='+accessToken+'; Path=/token; expires='+new Date(new Date().getTime()+86409000).toUTCString(),
+      'Set-Cookie':'token='+accessToken+'; Path=/; expires='+new Date(new Date().getTime()+86409000).toUTCString(),
       "Content-Type": `text/plain`
     });
+    console.log(res.headers);
     res.send("success");
   });
 
-  routerPrincipal.post('/token', (req,res) => {
+  // should be in middleware
+  routerPrincipal.post('/token', async (req,res) => {
     let list = {};
     const cookieHeader = req.headers?.cookie;
     if (!cookieHeader) return list;
@@ -102,11 +88,23 @@ const main = async () => {
     });
 
     console.log(list.token);
-
+    //const answer = await verifyToken(list.token);
+    //console.log(answer);
     //TO DO - verify the token using verify
-    res.send('gj my nigga. token: \n' + list.token);
+    res.send('gj my nigga. token: \n' + list.token );    
   });
-  //to destroy https://stackoverflow.com/questions/27978868/destroy-cookie-nodejs
+
+  routerPrincipal.post('/logout', (req,res) => {
+    let cookie = req.headers?.cookie.split('=')[1];
+    console.log(cookie);
+
+    res.writeHead(200, {
+      'Set-Cookie':'token='+cookie+'; Path=/; expires='+new Date(new Date().getTime()).toUTCString(),
+      "Content-Type": `text/plain`
+    });
+    
+   res.send('should be dead');
+  });
 
   routerMarcel.get('/create', (req, res, next) => {
     console.log('Looged');
