@@ -11,7 +11,7 @@ customElements.define(
   },
 );
 
-async function generateHeader(req){
+async function generateHeader(req) {
   const container = document.getElementsByClassName('header')[0];
 
   let response;
@@ -32,12 +32,12 @@ async function generateHeader(req){
   }
   const body = await response.json();
 
-  let text = `Welcome, ${body.firstName} ${body.lastName}.`;
+  const text = `Welcome, ${body.firstName} ${body.lastName}.`;
   document.createTextNode(text);
-  container.innerHTML=text;
+  container.innerHTML = text;
 }
 
-async function generateCards() {  
+async function generateCards() {
   let response;
   try {
     response = await fetch('http://127.0.0.1/child/getAllChildren', {
@@ -58,45 +58,45 @@ async function generateCards() {
   const container = document.getElementsByClassName('grid-container')[0];
 
   let i = 0;
-  for( const kid of body ){
+  for (const kid of body) {
     const newCat = document.createElement('cat-card');
     newCat.setAttribute('class', `cat-${kid._id}`);
 
     const catImg = document.createElement('img');
     catImg.setAttribute('class', 'card-image');
     catImg.setAttribute('slot', 'cat-image');
-    catImg.setAttribute('onClick', 'catPage("'+kid._id+'")');
+    catImg.setAttribute('onClick', `catPage("${kid._id}")`);
     catImg.setAttribute('src', kid.imgPath); // image from back do be added
     newCat.appendChild(catImg);
 
     const deleteBut = document.createElement('input');
-    deleteBut.setAttribute('type','image');
+    deleteBut.setAttribute('type', 'image');
     deleteBut.setAttribute('class', 'delete-button');
     deleteBut.setAttribute('slot', 'cat-delete');
-    deleteBut.setAttribute('src', "./assets/deleteButton.png");
-    deleteBut.setAttribute('onClick', `deleteChild("${kid._id}")`)
+    deleteBut.setAttribute('src', './assets/deleteButton.png');
+    deleteBut.setAttribute('onClick', `deleteChild("${kid._id}")`);
     newCat.appendChild(deleteBut);
 
     const favButton = document.createElement('input');
     favButton.setAttribute('type', 'image');
     favButton.setAttribute('class', 'favorite-button');
     favButton.setAttribute('slot', 'cat-favorite');
-    favButton.setAttribute('src', "./assets/star-empty.png");
+    favButton.setAttribute('src', './assets/star-empty.png');
     favButton.setAttribute('onClick', `favoriteChild("${kid._id}")`);
     newCat.appendChild(favButton);
 
     const settingButton = document.createElement('input');
-    settingButton.setAttribute('type','image');
+    settingButton.setAttribute('type', 'image');
     settingButton.setAttribute('src', './assets/settings.png');
     settingButton.setAttribute('slot', 'settingsButton');
-    settingButton.setAttribute('class','settings-button');
-    settingButton.setAttribute('onclick',`settingsChild("${kid._id}")`);
+    settingButton.setAttribute('class', 'settings-button');
+    settingButton.setAttribute('onclick', `settingsChild("${kid._id}")`);
     newCat.appendChild(settingButton);
-    
+
     const catName = document.createElement('p');
     catName.setAttribute('slot', 'cat-name');
     catName.setAttribute('class', 'card-name');
-    catName.textContent = kid.firstName + ' ' + kid.lastName;
+    catName.textContent = `${kid.firstName} ${kid.lastName}`;
     newCat.appendChild(catName);
     console.log(newCat);
     container.appendChild(newCat);
@@ -113,8 +113,7 @@ async function generateCards() {
   addChild.appendChild(buttonAddChild);
   container.appendChild(addChild);
 }
-async function settingsChild(id){
-
+async function settingsChild(id) {
   let response;
   try {
     response = await fetch('http://127.0.0.1/child/getChild', {
@@ -123,7 +122,7 @@ async function settingsChild(id){
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({id}),
+      body: JSON.stringify({ id }),
       credentials: 'include',
     });
     if (response.redirected) {
@@ -149,22 +148,42 @@ async function settingsChild(id){
 
   const birthday = container.getElementsByClassName('birthday')[0];
   let birth = body.dateOfBirth;
-  birth = birth.slice(0,10);
+  birth = birth.slice(0, 10);
   console.log(birth);
   birthday.value = birth;
 
-  //image?
+  // image?
 }
 function catPage(idCat) {
   console.log(idCat);
   window.location.replace('infoPage.html'); // hacky, needs to be changed
 }
-function deleteChild(id) {
-  console.log(id);
-  confirm('Are you sure you want to delete this child?');
+async function deleteChild(id) {
+  if (confirm('Do you really want to delete this child?')) {
+    let response;
+    try {
+      response = await fetch('http://127.0.0.1/child/deleteChild', {
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id }),
+        credentials: 'include',
+      });
+      if (response.redirected) {
+        window.location.href = response.url;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    console.log(response);
+  }
 }
+
 function favoriteChild(id) {
-  console.log(id)
+  console.log(id);
   if (e.target.src.includes('star-empty')) {
     e.target.src = e.target.src.replace('star-empty', 'star-full');
   } else {
@@ -212,7 +231,6 @@ const logout = async () => {
 const addChildForm = async (event) => {
   event.preventDefault();
   closeForm();
-
 
   const addChildFormData = {
     firstName: document.getElementById('firstName').value,
