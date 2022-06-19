@@ -35,19 +35,6 @@ childRouter.post('/addChild', async (req, res) => {
   // fs.createWriteStream('test.png').write(req.body);
 });
 
-<<<<<<< Updated upstream
-childRouter.get('/getChild', async (req, res) => {
-  const id = '62ae125493b10048aa217d47';
-  // de luat din req
-
-  try {
-    const kid = await Child.findById(id);
-    if (kid === null) {
-      return res.send('doent exist');
-    }
-    return res.json(kid);
-  } catch (err) {
-=======
 childRouter.post('/getChild', async(req, res) => {
   console.log(req.body)
   const id = JSON.parse(req.body).id;
@@ -60,7 +47,6 @@ childRouter.post('/getChild', async(req, res) => {
     console.log(kid);
     return res.json(JSON.stringify(kid));
   } catch( err ){
->>>>>>> Stashed changes
     console.log(err);
     return res.send(err);
   }
