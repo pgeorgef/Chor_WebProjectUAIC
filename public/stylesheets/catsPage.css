@@ -6,10 +6,44 @@ body{
     background-color: #5CDB95;
 }
 
+.font{
+    text-indent: 1.5vw;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 2.2vw;
+    letter-spacing: 0.01vw;
+    color: white;
+    font-weight: 700;
+    text-decoration: none solid rgb(68, 68, 68);
+    font-style: normal;
+    font-variant: small-caps;
+    text-transform: none;
+    vertical-align: middle;
+    display: inline-block;
+    margin: 0.25vw;
+    padding: 0.1vw;
+    text-align: justify;
+}
+
+.header{
+    position: absolute;
+    left: 6%;
+}
+
+#box1{
+    position: absolute;
+    background-color:orange;
+    padding:5px;
+    width:50px;
+    height:50px;
+    position:absolute;
+    left:20%;
+    top:1%;
+}
+
 .grid-container{
 
     display: grid;
-    padding-top: 2em;
+    padding-top: 3em;
     justify-content: center;
     grid-template-columns: repeat(3, 24vw);
     column-gap: 100px;

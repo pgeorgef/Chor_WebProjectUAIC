@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const { Server } = require('./lib/server');
 const { Router } = require('./lib/router');
 const {
-  sendFileRes, cors, validateMail, validateUsername, saveUser, validateLogin, verifyToken,
+  sendFileRes, cors, validateMail, validateUsername, validateFirstName, validateLastName, validatePassword, checkResult, saveUser, validateLogin, verifyToken,
 } = require('./lib/utils');
 const User = require('./models/user');
 
@@ -37,19 +37,26 @@ const main = async () => {
   });
 
   routerPrincipal.post('/register', async (req, res) => {
-    // TO DO - verify first/last name ( doar litere + spatii )
-    // TO DO - verify password (doar litere, cifre, si alte simboluri? sqlinsertio?)
-    if (await validateUsername(JSON.parse(req.body).userName, User)) {
-      return res.json({ err: 'Username already taken!' });
-    }
-
-    if (await validateMail(JSON.parse(req.body).email, User)) {
-      return res.json({ err: 'Mail already taken!' });
-    }
+  if ( await validateFirstName(JSON.parse(req.body).firstName)){
+    return res.json({err: 'Invalid first name'});
+  }
+  if (await validateLastName(JSON.parse(req.body).lastName)){
+    return res.json({err: 'Invalid last name'});
+  }
+  if (await validatePassword(JSON.parse(req.body).pass)){
+    return res.json({err: 'Invalid password'});
+  }
+  if (await validateUsername(JSON.parse(req.body).userName, User)) {
+    return res.json({ err: 'Username already taken!' });
+  }
+  if (await validateMail(JSON.parse(req.body).email, User)) {
+    return res.json({ err: 'Mail already taken!' });
+  }
     try {
-      await saveUser(res.body);
+      await saveUser(req.body);
       return res.json({ success: 'user saved' });
     } catch (error) {
+      console.log(error);
       return res.json({ err: 'err while creating user' });
     }
   });
@@ -67,8 +74,19 @@ const main = async () => {
       'Set-Cookie': `token=${accessToken}; Path=/; expires=${new Date(new Date().getTime() + 86409000).toUTCString()}`,
       'Content-Type': 'text/plain',
     });
-
+    
     return res.send('success');
+  });
+
+  routerPrincipal.get('/getInfo', async(req,res) =>{
+    if(req.body=='')
+    return res.send('not logged in');
+    console.log('firstname');
+    console.log(JSON.parse(req.body).firstName);
+    console.log('lastname');
+    console.log(JSON.parse(req.body).lastName);
+    let result = JSON.parse(req.body).firstName + ' ' +JSON.parse(req.body).lastName;
+    return res.send(result)
   });
 
   // should be in middleware

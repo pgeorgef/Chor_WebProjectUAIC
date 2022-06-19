@@ -11,6 +11,15 @@ customElements.define(
   },
 );
 
+function generateHeader(){
+  const container = document.getElementsByClassName('header')[0];
+  let firstName = "Pisicuta";
+  let lastName = "Suparata";
+  let text = `Welcome, ${firstName} ${lastName}.`;
+  var final = document.createTextNode(text);
+  container.innerHTML=text;
+}
+
 function generateCards() {
   const numCats = 10; // this is going to be fetched from the backend
   // pisi.src = "https://media.istockphoto.com/photos/ro/pisica-european%C4%83-cu-p%C4%83r-scurt-id1072769156?s=612x612"
@@ -61,6 +70,7 @@ function favoriteChild(e) {
 }
 window.onload = function () {
   generateCards();
+  generateHeader();
 };
 
 function openForm() {
