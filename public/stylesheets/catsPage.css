@@ -9,7 +9,7 @@ body{
 .grid-container{
 
     display: grid;
-    padding-top: 2em;
+    padding-top: 3em;
     justify-content: center;
     grid-template-columns: repeat(3, 24vw);
     column-gap: 100px;
@@ -50,6 +50,25 @@ body{
     width: 3em;
 }
 .favorite-button{
+    position: relative;
+    right: 0;
+    height: 3em;
+    width: 3em;
+    float: right;
+    clear: none;
+}
+
+.settings-button{
+    position: relative;
+    right: 0;
+    /* TO DO MUTAT BUTON SETINGS */
+    height: 3em;
+    width: 3em;
+    float: right;
+    clear: none;
+}
+
+.settings-button{
     position: relative;
     right: 0;
     height: 3em;
@@ -157,6 +176,29 @@ body{
     border-radius: 8px;
   }
 
+  .font{
+    text-indent: 1.5vw;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 2.2vw;
+    letter-spacing: 0.01vw;
+    color: white;
+    font-weight: 700;
+    text-decoration: none solid rgb(68, 68, 68);
+    font-style: normal;
+    font-variant: small-caps;
+    text-transform: none;
+    vertical-align: middle;
+    display: inline-block;
+    margin: 0.25vw;
+    padding: 0.1vw;
+    text-align: justify;
+}
+
+.header{
+    position: absolute;
+    left: 6%;
+}
+
 #overlay {
     left: 0;
     top: 0;
@@ -230,4 +272,3 @@ body{
         width: 50vw;
     }
 }
-

@@ -19,6 +19,10 @@ const childSchema = new Schema({
     type: Date,
     required: true,
   },
+  imgPath: {
+    type: String,
+    required: true,
+  }
 }, { timestamps: true });
 
 const Child = mongoose.model('Child', childSchema);
