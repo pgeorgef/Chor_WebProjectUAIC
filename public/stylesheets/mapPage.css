@@ -2,8 +2,16 @@
     font-family: "Lucida Console", "Courier New", monospace;
 }
 
+  #map {
+    width: 74vw;
+    height: 90vh;
+    left: 23%; 
+  }
+
 body{
     background-color: #5CDB95;
+    margin: 0;
+    padding: 0;
 }
 
 .logout{

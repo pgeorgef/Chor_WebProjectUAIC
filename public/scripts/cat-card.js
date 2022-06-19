@@ -57,7 +57,7 @@ async function generateCards() {
   const body = await response.json();
   const container = document.getElementsByClassName('grid-container')[0];
 
-  const i = 0;
+
   for (const kid of body) {
     const newCat = document.createElement('cat-card');
     newCat.setAttribute('class', `cat-${kid._id}`);
@@ -150,16 +150,37 @@ async function settingsChild(id) {
   birth = birth.slice(0, 10);
   console.log(birth);
   birthday.value = birth;
+
 }
 function catPage(idCat) {
   console.log(idCat);
   localStorage.setItem('idCat', idCat);
   window.location.replace('infoPage.html'); // hacky, needs to be changed
 }
-function deleteChild(id) {
-  console.log(id);
-  confirm('Are you sure you want to delete this child?');
+async function deleteChild(id) {
+  if (confirm('Do you really want to delete this child?')) {
+    let response;
+    try {
+      response = await fetch('http://127.0.0.1/child/deleteChild', {
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id }),
+        credentials: 'include',
+      });
+      if (response.redirected) {
+        window.location.href = response.url;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    console.log(response);
+  }
 }
+
 function favoriteChild(id) {
   console.log(id);
   if (e.target.src.includes('star-empty')) {

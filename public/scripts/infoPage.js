@@ -11,6 +11,8 @@ customElements.define(
   },
 );
 
+
+
 async function textBox() {
   const id = localStorage.getItem('idCat');
   // <input type="image" src="./assets/logout.png" class="logout">
@@ -74,6 +76,7 @@ async function textBox() {
                 DEVICE INFO: ${deviceInfo}<br>
                 `;
 
+
   document.createTextNode(text);
   paragraph.innerHTML = text;
 }
@@ -106,3 +109,4 @@ window.onload = function () {
   generateCards();
   textBox();
 };
+
