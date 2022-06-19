@@ -38,8 +38,6 @@ async function generateHeader(req){
 }
 
 async function generateCards() {  
-  const randImages = ['https://i.redd.it/dm6ze58ywka71.jpg', 'https://i.redd.it/ltdwutfkwpp71.jpg', 'https://i.redd.it/fndazfdlnzl71.jpg', 'https://preview.redd.it/qz5mzemlwon71.jpg?width=1390&format=pjpg&auto=webp&s=6e0689ff1bb6651a856d3307589ed86396a3dfba', 'https://i.redd.it/tsnalhemkgl71.jpg', 'https://i.redd.it/i80qyn1ht9m81.jpg', 'https://preview.redd.it/9ltty7vsxux71.jpg?width=3120&format=pjpg&auto=webp&s=dfeed52092c4ffc61a1b9b755f83013120d2e83b', 'https://i.redd.it/j9m5ywu3z9h81.jpg'];
-
   let response;
   try {
     response = await fetch('http://127.0.0.1/child/getAllChildren', {
@@ -68,7 +66,7 @@ async function generateCards() {
     catImg.setAttribute('class', 'card-image');
     catImg.setAttribute('slot', 'cat-image');
     catImg.setAttribute('onClick', 'catPage("'+kid._id+'")');
-    catImg.setAttribute('src', randImages[Math.floor(Math.random() * 8)]); // image from back do be added
+    catImg.setAttribute('src', kid.imgPath); // image from back do be added
     newCat.appendChild(catImg);
 
     const deleteBut = document.createElement('input');
@@ -215,30 +213,23 @@ const addChildForm = async (event) => {
   event.preventDefault();
   closeForm();
 
+
   const addChildFormData = {
     firstName: document.getElementById('firstName').value,
     lastName: document.getElementById('lastName').value,
-    address: document.getElementById('address').value,
-    birth: document.getElementById('birthday').value,
+    adress: document.getElementById('address').value,
+    dateOfBirth: document.getElementById('birthday').value,
   };
-  // document.getElementsByClassName('card-image')[0].src = addChildForm.image;
-  // fs.createWriteStream('test').write(addChildForm.image);
-  let response;
-  console.log('imagine este:');
-  console.log(addChildFormData.image);
-  const blob = await fetch(addChildFormData.image).then((r) => r.blob());
 
-  // console.log(reader.readAsText(blob));
+  let response;
+  const formImage = URL.createObjectURL(document.getElementById('file').files[0]);
+  console.log('imagine este:');
+  console.log(formImage);
+  const blob = await fetch(formImage).then((r) => r.blob());
+
   console.log(`blobul este ${typeof (blob)}`);
   console.log(blob);
-  // console.log(typeof ((await blobToBase64(blob))));
 
-  //  console.log(new Blob([((await blobToBase64(blob)).split(',')[1])], { type: 'image/png' }));
-  // blob = await blob.arrayBuffer();
-  // const view = ab2str(blob);
-  // console.log(view);
-  // console.log('aaaa');
-  // addChildFormData.image = view;
   console.log(addChildFormData);
   const formdata = new FormData();
   formdata.append('form', JSON.stringify(addChildFormData));
@@ -256,5 +247,4 @@ const addChildForm = async (event) => {
     console.log(error);
   }
   const body = await response.json();
-  console.log(body);
 };

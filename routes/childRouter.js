@@ -15,24 +15,15 @@ childRouter.get('/getAllChildren', async (req, res) => {
 });
 
 childRouter.post('/addChild', async (req, res) => {
-  console.log('in add child');
-  /*
   const parent = await User.findOne({userName : req.user});
-  console.log(parent);
-
-  const child = new Child(JSON.parse(req.body));
-  // child.save();
+  const bodyData = JSON.parse(req.body.fields.form);
+  fs.renameSync(req.body.files.image.filepath, req.body.files.image.filepath + '.png');
+  bodyData.imgPath = (req.body.files.image.filepath + '.png').split('public')[1];
+  const child = new Child(bodyData);
+  child.save();
   parent.children.push(child._id);
-  // parent.save();
-  */
-  console.log('req este: ');
-  // console.log(typeof (req.body));
-  console.log(req.body);
-  console.log(JSON.parse(req.body.fields.form));
-  console.log(req.body.files.image.filepath);
-
-  // console.log(new Blob([req.body], { type: 'image/png' }));
-  // fs.createWriteStream('test.png').write(req.body);
+  parent.save();
+  res.redirect('../catsPage');
 });
 
 childRouter.post('/getChild', async(req, res) => {
