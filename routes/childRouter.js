@@ -1,5 +1,4 @@
 const fs = require('fs');
-const { Blob } = require('buffer');
 const { Router } = require('../lib/router');
 const User = require('../models/user');
 const Child = require('../models/child');
@@ -30,7 +29,9 @@ childRouter.post('/addChild', async (req, res) => {
 childRouter.post('/getChild', async (req, res) => {
   console.log(req.body);
   const { id } = JSON.parse(req.body);
-  console.log(`am priit id: ${id}`);
+
+  console.log(`am primit id: ${id}`);
+
   try {
     const kid = await Child.findById(id);
     if (kid == null || kid === undefined) {
@@ -70,12 +71,12 @@ childRouter.delete('/deleteChild', async (req, res) => {
   res.send('success');
 });
 
+
 childRouter.get('/getParent', async (req, res) => {
   try {
     const parent = await User.findOne({ userName: req.user });
-    if (parent == null) {
-      return res.send('doent exist');
-    }
+    if (parent == null) { return res.send('doent exist'); }
+
     return res.json(parent);
   } catch (err) {
     console.log(err);

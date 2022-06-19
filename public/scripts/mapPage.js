@@ -1,3 +1,4 @@
+
 function createMap() {
   const lat = 45.9443;
   const long = 25.0094;
@@ -22,3 +23,14 @@ function createMap() {
 window.onload = function () {
   createMap();
 };
+
+
+function goToInfo() {
+  console.log(localStorage.getItem('idCat'));
+  window.location.replace('infoPage.html');
+}
+function goToCam() {
+  console.log(localStorage.getItem('idCat'));
+  window.location.replace('camPage.html');
+}
+

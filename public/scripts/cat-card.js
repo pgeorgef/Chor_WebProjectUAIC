@@ -57,7 +57,7 @@ async function generateCards() {
   const body = await response.json();
   const container = document.getElementsByClassName('grid-container')[0];
 
-  let i = 0;
+
   for (const kid of body) {
     const newCat = document.createElement('cat-card');
     newCat.setAttribute('class', `cat-${kid._id}`);
@@ -100,7 +100,6 @@ async function generateCards() {
     newCat.appendChild(catName);
     console.log(newCat);
     container.appendChild(newCat);
-    i++;
   }
 
   // add the add child container
@@ -152,10 +151,10 @@ async function settingsChild(id) {
   console.log(birth);
   birthday.value = birth;
 
-  // image?
 }
 function catPage(idCat) {
   console.log(idCat);
+  localStorage.setItem('idCat', idCat);
   window.location.replace('infoPage.html'); // hacky, needs to be changed
 }
 async function deleteChild(id) {
@@ -265,4 +264,5 @@ const addChildForm = async (event) => {
     console.log(error);
   }
   const body = await response.json();
+  // TO DO CHECK EROARE
 };
