@@ -68,9 +68,8 @@ childRouter.delete('/deleteChild', async (req, res) => {
     parent.children.splice(index, 1);
     parent.save();
   }
-  res.send('success');
+  res.redirect('../catsPage');
 });
-
 
 childRouter.get('/getParent', async (req, res) => {
   try {

@@ -1,4 +1,3 @@
-
 function createMap() {
   const lat = 45.9443;
   const long = 25.0094;
@@ -15,7 +14,7 @@ function createMap() {
   const gara = [47.168035, 27.568705];
   const marasesti = [45.875360, 27.219712];
 
-  if (L.latLng(gara).distanceTo(marasesti) < 2000) {
+  if (L.latLng(gara).distanceTo(pacurari) < 2000) {
     marker1.bindPopup('<b>Sunt in Iasi!</b><br>Sniggers.').openPopup();
   }
 }
@@ -23,7 +22,6 @@ function createMap() {
 window.onload = function () {
   createMap();
 };
-
 
 function goToInfo() {
   console.log(localStorage.getItem('idCat'));
@@ -33,4 +31,3 @@ function goToCam() {
   console.log(localStorage.getItem('idCat'));
   window.location.replace('camPage.html');
 }
-

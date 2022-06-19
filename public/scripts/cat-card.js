@@ -57,7 +57,6 @@ async function generateCards() {
   const body = await response.json();
   const container = document.getElementsByClassName('grid-container')[0];
 
-
   for (const kid of body) {
     const newCat = document.createElement('cat-card');
     newCat.setAttribute('class', `cat-${kid._id}`);
@@ -150,7 +149,6 @@ async function settingsChild(id) {
   birth = birth.slice(0, 10);
   console.log(birth);
   birthday.value = birth;
-
 }
 function catPage(idCat) {
   console.log(idCat);
