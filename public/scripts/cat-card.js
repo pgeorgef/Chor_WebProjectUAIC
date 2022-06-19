@@ -96,15 +96,50 @@ const logout = async () => {
   }
 };
 
-const addChildForm = (event) => {
+const addChildForm = async (event) => {
   event.preventDefault();
   closeForm();
-  const addChildForm = {
+
+  const addChildFormData = {
     firstName: document.getElementById('firstName').value,
     lastName: document.getElementById('lastName').value,
     address: document.getElementById('address').value,
     birth: document.getElementById('birthday').value,
-    image: document.getElementById('file').value,
   };
-  console.log(addChildForm);
-}
+  // document.getElementsByClassName('card-image')[0].src = addChildForm.image;
+  // fs.createWriteStream('test').write(addChildForm.image);
+  let response;
+  console.log('imagine este:');
+  console.log(addChildFormData.image);
+  const blob = await fetch(addChildFormData.image).then((r) => r.blob());
+
+  // console.log(reader.readAsText(blob));
+  console.log(`blobul este ${typeof (blob)}`);
+  console.log(blob);
+  // console.log(typeof ((await blobToBase64(blob))));
+
+  //  console.log(new Blob([((await blobToBase64(blob)).split(',')[1])], { type: 'image/png' }));
+  // blob = await blob.arrayBuffer();
+  // const view = ab2str(blob);
+  // console.log(view);
+  // console.log('aaaa');
+  // addChildFormData.image = view;
+  console.log(addChildFormData);
+  const formdata = new FormData();
+  formdata.append('form', JSON.stringify(addChildFormData));
+  formdata.append('image', blob);
+  try {
+    response = await fetch('http://127.0.0.1/child/addChild', {
+      method: 'POST',
+      body: formdata,
+      credentials: 'include',
+    });
+    if (response.redirected) {
+      window.location.href = response.url;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  const body = await response.json();
+  console.log(body);
+};

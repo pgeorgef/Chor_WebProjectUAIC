@@ -17,7 +17,7 @@ accountRouter.post('/login', async (req, res) => {
   const accessToken = jwt.sign({ userName: user.userName }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10m' });
   res.setHeader('Set-Cookie', `token=${accessToken}; Path=/; expires=${new Date(new Date().getTime() + 86409000).toUTCString()}`);
   res.setHeader('withCredentials', true);
-  //return res.send('nice');
+  // return res.send('nice');
   return res.redirect('../catsPage');
 });
 
