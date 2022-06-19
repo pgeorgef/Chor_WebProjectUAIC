@@ -102,7 +102,7 @@ body{
 .formPopup {
     display: none;
     position: fixed;
-    left: 45%;
+    left: 50%;
     top: 5%;
     transform: translate(-50%, 5%);
     border: 3px solid lightgray;
@@ -113,7 +113,7 @@ body{
     padding: 20px;
     background-color: #EDF5E1;
   }
-  .formContainer input[type=text] {
+  .formContainer input {
     width: 90%;
     padding: 15px;
     margin: 5px 0 20px 0;
@@ -122,6 +122,10 @@ body{
   }
   #birthday{
       margin-top: 0.5em;
+  }
+  #file{
+    margin-top: 0.5em;
+    display: block;
   }
   .submitAddChild{
       margin-top: 2em;
