@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
-const { childSchema } = require('./child');
 
 const userSchema = new Schema({
   firstName: {
@@ -24,10 +23,11 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  children: {
-    type: [childSchema],
+  children: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Child',
     required: false,
-  },
+  }],
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);

@@ -61,6 +61,7 @@ body{
     height: 3em;
     width: 3em;
     position: absolute;
+    cursor: pointer;
 }
 .card-name{
     margin-top: -0.025em;

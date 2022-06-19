@@ -71,3 +71,27 @@ function closeForm() {
   document.getElementById('popupForm').style.display = 'none';
   overlay.style.display = 'none';
 }
+
+const logout = async () => {
+  let response;
+  try {
+    response = await fetch('http://127.0.0.1/logout', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+    if (response.redirected) {
+      window.location.href = response.url;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  const body = await response.json();
+  console.log(body);
+  if (Object.prototype.hasOwnProperty.call(body, 'err')) {
+    alert(body.err);
+  }
+};
