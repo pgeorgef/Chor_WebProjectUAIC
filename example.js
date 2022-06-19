@@ -1,13 +1,14 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const { Server } = require('./lib/server');
 const { Router } = require('./lib/router');
 const {
-  sendFileRes, cors, validateMail, validateUsername, saveUser, validateLogin, verifyToken
+  sendFileRes, cors, validateMail, validateUsername, saveUser, validateLogin, verifyToken,
 } = require('./lib/utils');
 const User = require('./models/user');
-const cookieParser = require("cookie-parser");
+const Child = require('./models/child')
 
 const dbURI = 'mongodb+srv://chor:ct7H1gFt3PuE5vrL@cluster0.boslzhe.mongodb.net/?retryWrites=true&w=majority';
 
@@ -37,8 +38,8 @@ const main = async () => {
   });
 
   routerPrincipal.post('/register', async (req, res) => {
-    //TO DO - verify first/last name ( doar litere + spatii )
-    //TO DO - verify password (doar litere, cifre, si alte simboluri? sqlinsertio?)
+    // TO DO - verify first/last name ( doar litere + spatii )
+    // TO DO - verify password (doar litere, cifre, si alte simboluri? sqlinsertio?)
     if (await validateUsername(JSON.parse(req.body).userName, User)) {
       return res.json({ err: 'Username already taken!' });
     }
@@ -47,64 +48,114 @@ const main = async () => {
       return res.json({ err: 'Mail already taken!' });
     }
     try {
-      await saveUser(res.body);
+      console.log(req.body);
+      await saveUser(req.body);
       return res.json({ success: 'user saved' });
     } catch (error) {
+      console.log(error);
       return res.json({ err: 'err while creating user' });
     }
   });
 
-  routerPrincipal.post('/login', async(req, res) => {
- 
-    let user;
-    if( ( user = await validateLogin(JSON.parse(req.body).userName, JSON.parse(req.body).pass, User)) == null ){
-      return res.json({err: 'username/password inccorect!'});
+  routerPrincipal.post('/login', async (req, res) => {
+    const user = await validateLogin(JSON.parse(req.body).userName, JSON.parse(req.body).pass, User);
+    if (user === null) {
+      return res.json({ err: 'username/password inccorect!' });
     }
+    // de pus in confing
+    const accessToken = jwt.sign({ userName: user.userName }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1m' });
 
-    const accessToken = jwt.sign({userName: user.userName}, process.env.ACCESS_TOKEN_SECRET, {expiresIn:'1m'});
-    //const refreshToken = jwt.sign({userName: user.userName}, process.env.REFRESH_TOKEN_SECRET);
-    //res.json({ token: accessToken });
     res.writeHead(200, {
-      'Set-Cookie':'token='+accessToken+'; Path=/; expires='+new Date(new Date().getTime()+86409000).toUTCString(),
-      "Content-Type": `text/plain`
+      'Set-Cookie': `token=${accessToken}; Path=/; expires=${new Date(new Date().getTime() + 86409000).toUTCString()}`,
+      'Content-Type': 'text/plain',
     });
-    console.log(res.headers);
-    res.send("success");
+
+    return res.send('success');
   });
 
   // should be in middleware
-  routerPrincipal.post('/token', async (req,res) => {
-    let list = {};
+  routerPrincipal.post('/token', async (req, res) => {
+    const list = {};
     const cookieHeader = req.headers?.cookie;
     if (!cookieHeader) return list;
 
-    cookieHeader.split(`;`).forEach(function(cookie) {
-        let [ name, ...rest] = cookie.split(`=`);
-        name = name?.trim();
-        if (!name) return;
-        const value = rest.join(`=`).trim();
-        if (!value) return;
-        list[name] = decodeURIComponent(value);
+    cookieHeader.split(';').forEach((cookie) => {
+      let [name, ...rest] = cookie.split('=');
+      name = name?.trim();
+      if (!name) return;
+      const value = rest.join('=').trim();
+      if (!value) return;
+      list[name] = decodeURIComponent(value);
     });
-
+    let answer;
     console.log(list.token);
-    //const answer = await verifyToken(list.token);
-    //console.log(answer);
-    //TO DO - verify the token using verify
-    res.send('gj my nigga. token: \n' + list.token );    
+    try {
+      answer = await verifyToken(list.token);
+    } catch (error) {
+      return res.send('bye bye');
+    }
+
+    console.log(answer);
+    // TO DO - verify the token using verify
+    return res.send(`token: \n${list.token} ${answer}`);
   });
 
-  routerPrincipal.post('/logout', (req,res) => {
-    let cookie = req.headers?.cookie.split('=')[1];
+  routerPrincipal.post('/logout', (req, res) => {
+    const cookie = req.headers?.cookie.split('=')[1];
     console.log(cookie);
 
     res.writeHead(200, {
-      'Set-Cookie':'token='+cookie+'; Path=/; expires='+new Date(new Date().getTime()).toUTCString(),
-      "Content-Type": `text/plain`
+      'Set-Cookie': `token=''; expires=${new Date(new Date().getTime()).toUTCString()}`,
+      'Content-Type': 'text/plain',
     });
-    
-   res.send('should be dead');
+
+    res.send('should be dead');
   });
+
+  routerPrincipal.post('/addChild', async (req, res) => {
+
+    //TO DO veriricari fiecare camp!
+    const child = new Child(JSON.parse(req.body));
+    //child.save();
+    console.log(child);
+
+    //const parinte = req.user;
+    const parinte = await User.findById('62ae124b93b10048aa217d44');
+    parinte.children.push(child._id);
+    console.log(parinte);
+    //parinte.save();
+    return res.send('child added successfuly');
+  });
+
+  routerPrincipal.get('/getChild', async (req,res) => {
+
+    const id = '62ae125493b10048aa217d47'; //bun
+    //const id= '62ae125493b10048aa217d48';    //gresit
+
+    try{
+      const kid = await Child.findById(id);
+      if( kid == null ){
+        return res.send('doenst exist!');
+      }else{
+        return res.json(kid);
+      }
+    } catch( err ){
+      console.log(err);
+      return res.send('err');
+    }
+  });
+
+  routerPrincipal.get('/allChildren', async (req,res) => {
+    const parinte = await User.findById('62ae124b93b10048aa217d44');
+    //const parinte = req.user;
+
+    parinte
+    .populate('children')
+    .then(p => res.json(p.children))
+    .catch(error=>console.log(error));
+  });
+
+
 
   routerMarcel.get('/create', (req, res, next) => {
     console.log('Looged');

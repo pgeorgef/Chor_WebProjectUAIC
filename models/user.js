@@ -24,10 +24,11 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  children: {
-    type: [childSchema],
-    required: false,
-  },
+  children: [{
+    type: Schema.Types.ObjectId, 
+    ref: 'Child',
+    required: false
+  }],
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);

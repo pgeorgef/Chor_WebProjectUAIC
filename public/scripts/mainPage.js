@@ -33,6 +33,7 @@ const register = async (event) => {
     pass: document.getElementsByName('password')[0].value,
   };
   document.getElementById('registerForm').reset();
+  console.log(registerInfo);
   let response;
   try {
     response = await axios.post('http://127.0.0.1/register', registerInfo);

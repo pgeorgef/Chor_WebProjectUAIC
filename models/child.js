@@ -22,4 +22,4 @@ const childSchema = new Schema({
 }, { timestamps: true });
 
 const Child = mongoose.model('Child', childSchema);
-module.exports = { childSchema, Child };
+module.exports = Child ;
