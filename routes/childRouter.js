@@ -28,6 +28,10 @@ childRouter.post('/addChild', async (req, res) => {
   res.send('good');
 });
 
+childRouter.patch('/editChild', async(req,res)=> {
+  
+});
+
 childRouter.get('/getChild', async(req, res) => {
 
   const id = '62ae125493b10048aa217d47';
@@ -39,6 +43,25 @@ childRouter.get('/getChild', async(req, res) => {
       return res.send('doent exist');
     }else{
       return res.json(kid);
+    }
+  } catch( err ){
+    console.log(err);
+    return res.send(err);
+  } 
+});
+
+childRouter.get('/getInfo', async(req, res) => {
+
+  const id = '62ae125493b10048aa217d47';
+  // de luat din req
+
+  try{
+    const firstName = await Child.findById(firstName);
+    if( kid == null ){
+      return res.send('doent exist');
+    }else{
+      const lastName = await Child.findById(lastName);
+      return res.json(firstName + lastName);
     }
   } catch( err ){
     console.log(err);

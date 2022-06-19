@@ -16,12 +16,14 @@
             <link href="./stylesheets/catsPage.css" rel="stylesheet">
             <input type="image" src="./assets/deleteButton.png" class="delete-button" onclick="deleteChild(event)"/>
             <input type="image" src="./assets/star-empty.png" class="favorite-button" onclick="favoriteChild(event)"/>
+            <input type="image" src="./assets/settings.png" class="settings-button" onclick="settingsChild(event)"/>
             <!--<img slot="cat-image" src="" class="card-image">-->
             <slot name="cat-image">need-image</slot>
             <slot name="cat-name">need name</slot> 
         </div>
 
     </template>
+    <div class="header font" ></div>
     <img src="./assets/logout.png" class="logout" alt="logout"  onclick="logout()">
     
     <div class="grid-container">
@@ -32,23 +34,23 @@
                 <label for="frst">
                     <strong>First Name</strong>
                 </label>
-                <input type="text" id="firstName" placeholder="First Name" name="firstName" required>
+                <input type="text" id="firstName" class="firstName" placeholder="First Name" name="firstName" required>
                 <label for="last">
                     <strong>Last Name</strong>
                 </label>
 
-                <input type="text" id="lastName" placeholder="Last Name" name="lastName" required>
+                <input type="text" id="lastName" class="lastName" placeholder="Last Name" name="lastName" required>
                 <label for="addr">
                     <strong>Address</strong>
                 </label>
 
-                <input type="text" id="address" placeholder="Address" name="address" required>
+                <input type="text" id="address" class="address" placeholder="Address" name="address" required>
 
                 <label for="birth">
                     <strong>Birth Date</strong>
                 </label>
                 <br>
-                <input type="date" id="birthday" name="birthDay" required>
+                <input type="date" id="birthday" class="birthday" name="birthDay" required>
                 <br>
                 
                 <label for="image">

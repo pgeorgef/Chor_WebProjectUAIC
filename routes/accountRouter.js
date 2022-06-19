@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { Router } = require('../lib/router');
 const {
-  validateMail, validateUsername, saveUser, validateLogin,
+  validateMail, validateUsername, saveUser, validateLogin, validateFirstName, validateLastName, validatePassword,
 } = require('../lib/utils');
 const User = require('../models/user');
 
@@ -22,6 +22,15 @@ accountRouter.post('/login', async (req, res) => {
 });
 
 accountRouter.post('/register', async (req, res) => {
+  if (await validateFirstName(JSON.parse(req.body).firstName, User)) {
+    return res.json({ err: 'Invalid first name' });
+  }
+  if (await validateLastName(JSON.parse(req.body).lastName, User)) {
+    return res.json({ err: 'Invalid last name!' });
+  }
+  if (await validatePassword(JSON.parse(req.body).pass, User)) {
+    return res.json({ err: 'Invalid password' });
+  }
   if (await validateUsername(JSON.parse(req.body).userName, User)) {
     return res.json({ err: 'Username already taken!' });
   }
