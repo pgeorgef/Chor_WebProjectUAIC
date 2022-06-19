@@ -11,31 +11,100 @@ customElements.define(
   },
 );
 
-function generateCards() {
-  const numCats = 10; // this is going to be fetched from the backend
-  // pisi.src = "https://media.istockphoto.com/photos/ro/pisica-european%C4%83-cu-p%C4%83r-scurt-id1072769156?s=612x612"
-  // console.log(pisi)
-  const randImages = ['https://i.redd.it/dm6ze58ywka71.jpg', 'https://i.redd.it/ltdwutfkwpp71.jpg', 'https://i.redd.it/fndazfdlnzl71.jpg', 'https://preview.redd.it/qz5mzemlwon71.jpg?width=1390&format=pjpg&auto=webp&s=6e0689ff1bb6651a856d3307589ed86396a3dfba', 'https://i.redd.it/tsnalhemkgl71.jpg', 'https://i.redd.it/i80qyn1ht9m81.jpg', 'https://preview.redd.it/9ltty7vsxux71.jpg?width=3120&format=pjpg&auto=webp&s=dfeed52092c4ffc61a1b9b755f83013120d2e83b', 'https://i.redd.it/j9m5ywu3z9h81.jpg', 'https://i.imgur.com/r4PT8WQ.jpg'];
-  const randNames = ['Luna', 'Oliver', 'Leo', 'Bella', 'Paul', 'Princess', 'Leon'];
+async function generateHeader(req){
+  const container = document.getElementsByClassName('header')[0];
 
+  let response;
+  try {
+    response = await fetch('http://127.0.0.1/child/getParent', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+    if (response.redirected) {
+      window.location.href = response.url;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  const body = await response.json();
+
+  let text = `Welcome, ${body.firstName} ${body.lastName}.`;
+  document.createTextNode(text);
+  container.innerHTML=text;
+}
+
+async function generateCards() {  
+  const randImages = ['https://i.redd.it/dm6ze58ywka71.jpg', 'https://i.redd.it/ltdwutfkwpp71.jpg', 'https://i.redd.it/fndazfdlnzl71.jpg', 'https://preview.redd.it/qz5mzemlwon71.jpg?width=1390&format=pjpg&auto=webp&s=6e0689ff1bb6651a856d3307589ed86396a3dfba', 'https://i.redd.it/tsnalhemkgl71.jpg', 'https://i.redd.it/i80qyn1ht9m81.jpg', 'https://preview.redd.it/9ltty7vsxux71.jpg?width=3120&format=pjpg&auto=webp&s=dfeed52092c4ffc61a1b9b755f83013120d2e83b', 'https://i.redd.it/j9m5ywu3z9h81.jpg'];
+
+  let response;
+  try {
+    response = await fetch('http://127.0.0.1/child/getAllChildren', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+    if (response.redirected) {
+      window.location.href = response.url;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  const body = await response.json();
   const container = document.getElementsByClassName('grid-container')[0];
-  for (let i = 0; i < numCats; ++i) {
+
+  let i = 0;
+  for( const kid of body ){
     const newCat = document.createElement('cat-card');
-    newCat.setAttribute('class', `cat-${i}`);
+    newCat.setAttribute('class', `cat-${kid._id}`);
+
     const catImg = document.createElement('img');
     catImg.setAttribute('class', 'card-image');
     catImg.setAttribute('slot', 'cat-image');
-    catImg.setAttribute('onClick', 'catPage()');
-    catImg.setAttribute('src', randImages[Math.floor(Math.random() * 9)]); // image from back
+    catImg.setAttribute('onClick', 'catPage("'+kid._id+'")');
+    catImg.setAttribute('src', randImages[Math.floor(Math.random() * 8)]); // image from back do be added
     newCat.appendChild(catImg);
+
+    const deleteBut = document.createElement('input');
+    deleteBut.setAttribute('type','image');
+    deleteBut.setAttribute('class', 'delete-button');
+    deleteBut.setAttribute('slot', 'cat-delete');
+    deleteBut.setAttribute('src', "./assets/deleteButton.png");
+    deleteBut.setAttribute('onClick', `deleteChild("${kid._id}")`)
+    newCat.appendChild(deleteBut);
+
+    const favButton = document.createElement('input');
+    favButton.setAttribute('type', 'image');
+    favButton.setAttribute('class', 'favorite-button');
+    favButton.setAttribute('slot', 'cat-favorite');
+    favButton.setAttribute('src', "./assets/star-empty.png");
+    favButton.setAttribute('onClick', `favoriteChild("${kid._id}")`);
+    newCat.appendChild(favButton);
+
+    const settingButton = document.createElement('input');
+    settingButton.setAttribute('type','image');
+    settingButton.setAttribute('src', './assets/settings.png');
+    settingButton.setAttribute('slot', 'settingsButton');
+    settingButton.setAttribute('class','settings-button');
+    settingButton.setAttribute('onclick',`settingsChild("${kid._id}")`);
+    newCat.appendChild(settingButton);
+    
     const catName = document.createElement('p');
     catName.setAttribute('slot', 'cat-name');
     catName.setAttribute('class', 'card-name');
-    catName.textContent = randNames[Math.floor(Math.random() * 7)]; // text from back
+    catName.textContent = kid.firstName + ' ' + kid.lastName;
     newCat.appendChild(catName);
     console.log(newCat);
     container.appendChild(newCat);
+    i++;
   }
+
   // add the add child container
   const addChild = document.createElement('div');
   addChild.setAttribute('class', 'card-container');
@@ -46,13 +115,58 @@ function generateCards() {
   addChild.appendChild(buttonAddChild);
   container.appendChild(addChild);
 }
-function catPage() {
+async function settingsChild(id){
+
+  let response;
+  try {
+    response = await fetch('http://127.0.0.1/child/getChild', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({id}),
+      credentials: 'include',
+    });
+    if (response.redirected) {
+      window.location.href = response.url;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  let body = await response.json();
+  body = JSON.parse(body);
+  console.log(body);
+
+  document.getElementById('popupForm').style.display = 'block';
+  const popup = document.getElementById('popupForm');
+  const container = popup.getElementsByClassName('formContainer')[0];
+  const firstName = container.getElementsByClassName('firstName')[0];
+  firstName.value = body.firstName;
+  const lastName = container.getElementsByClassName('lastName')[0];
+  lastName.value = body.lastName;
+
+  const address = container.getElementsByClassName('address')[0];
+  address.value = body.adress;
+
+  const birthday = container.getElementsByClassName('birthday')[0];
+  let birth = body.dateOfBirth;
+  birth = birth.slice(0,10);
+  console.log(birth);
+  birthday.value = birth;
+
+  //image?
+}
+function catPage(idCat) {
+  console.log(idCat);
   window.location.replace('infoPage.html'); // hacky, needs to be changed
 }
-function deleteChild() {
+function deleteChild(id) {
+  console.log(id);
   confirm('Are you sure you want to delete this child?');
 }
-function favoriteChild(e) {
+function favoriteChild(id) {
+  console.log(id)
   if (e.target.src.includes('star-empty')) {
     e.target.src = e.target.src.replace('star-empty', 'star-full');
   } else {
@@ -61,6 +175,7 @@ function favoriteChild(e) {
 }
 window.onload = function () {
   generateCards();
+  generateHeader();
 };
 
 function openForm() {

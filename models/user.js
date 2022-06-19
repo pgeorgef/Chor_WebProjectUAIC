@@ -28,6 +28,11 @@ const userSchema = new Schema({
     ref: 'Child',
     required: false,
   }],
+  favourite: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Child',
+    required: false,
+  }],
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);
