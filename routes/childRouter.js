@@ -1,5 +1,4 @@
 const fs = require('fs');
-const { Blob } = require('buffer');
 const { Router } = require('../lib/router');
 const User = require('../models/user');
 const Child = require('../models/child');
@@ -15,10 +14,10 @@ childRouter.get('/getAllChildren', async (req, res) => {
 });
 
 childRouter.post('/addChild', async (req, res) => {
-  const parent = await User.findOne({userName : req.user});
+  const parent = await User.findOne({ userName: req.user });
   const bodyData = JSON.parse(req.body.fields.form);
-  fs.renameSync(req.body.files.image.filepath, req.body.files.image.filepath + '.png');
-  bodyData.imgPath = (req.body.files.image.filepath + '.png').split('public')[1];
+  fs.renameSync(req.body.files.image.filepath, `${req.body.files.image.filepath}.png`);
+  bodyData.imgPath = (`${req.body.files.image.filepath}.png`).split('public')[1];
   const child = new Child(bodyData);
   child.save();
   parent.children.push(child._id);
@@ -26,31 +25,30 @@ childRouter.post('/addChild', async (req, res) => {
   res.redirect('../catsPage');
 });
 
-childRouter.post('/getChild', async(req, res) => {
-  console.log(req.body)
-  const id = JSON.parse(req.body).id;
-  console.log("am priit id: " + id)
-  try{
+childRouter.post('/getChild', async (req, res) => {
+  console.log(req.body);
+  const { id } = JSON.parse(req.body);
+  console.log(`am primit id: ${id}`);
+
+  try {
     const kid = await Child.findById(id);
-    if( kid == null || kid == undefined){
+    if (kid == null || kid === undefined) {
       return res.send('doent exist');
     }
     console.log(kid);
     return res.json(JSON.stringify(kid));
-  } catch( err ){
+  } catch (err) {
     console.log(err);
     return res.send(err);
   }
 });
 
-childRouter.get('/getParent', async(req,res) => {
-
-  try{
-    const parent = await User.findOne({userName: req.user});
-    if( parent == null )
-      return res.send('doent exist');
+childRouter.get('/getParent', async (req, res) => {
+  try {
+    const parent = await User.findOne({ userName: req.user });
+    if (parent == null) { return res.send('doent exist'); }
     return res.json(parent);
-  } catch( err ){
+  } catch (err) {
     console.log(err);
     return res.send(err);
   }

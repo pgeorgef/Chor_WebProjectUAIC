@@ -22,7 +22,7 @@ const childSchema = new Schema({
   imgPath: {
     type: String,
     required: true,
-  }
+  },
 }, { timestamps: true });
 
 const Child = mongoose.model('Child', childSchema);
