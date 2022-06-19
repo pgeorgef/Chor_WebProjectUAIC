@@ -95,3 +95,16 @@ const logout = async () => {
     alert(body.err);
   }
 };
+
+const addChildForm = (event) => {
+  event.preventDefault();
+  closeForm();
+  const addChildForm = {
+    firstName: document.getElementById('firstName').value,
+    lastName: document.getElementById('lastName').value,
+    address: document.getElementById('address').value,
+    birth: document.getElementById('birthday').value,
+    image: document.getElementById('file').value,
+  };
+  console.log(addChildForm);
+}

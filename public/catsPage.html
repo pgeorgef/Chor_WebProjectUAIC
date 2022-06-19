@@ -28,7 +28,7 @@
     </div>
     <div class="addChildPopup">
         <div class="formPopup" id="popupForm">
-            <form class="formContainer" autocomplete="off">
+            <form class="formContainer" autocomplete="off" onsubmit="addChildForm(event)">
                 <label for="frst">
                     <strong>First Name</strong>
                 </label>
@@ -37,12 +37,12 @@
                     <strong>Last Name</strong>
                 </label>
 
-                <input type="text" id="lastName" placeholder="Last Name" name="firstName" required>
+                <input type="text" id="lastName" placeholder="Last Name" name="lastName" required>
                 <label for="addr">
                     <strong>Address</strong>
                 </label>
 
-                <input type="text" id="address" placeholder="Address" name="firstName" required>
+                <input type="text" id="address" placeholder="Address" name="address" required>
 
                 <label for="birth">
                     <strong>Birth Date</strong>
