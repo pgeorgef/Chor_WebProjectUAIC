@@ -35,13 +35,13 @@ childRouter.post('/getChild', async (req, res) => {
   try {
     const kid = await Child.findById(id);
     if (kid == null || kid === undefined) {
-      return res.send('doent exist');
+      return res.json({ err: 'doesnt exist' });
     }
     console.log(kid);
     return res.json(JSON.stringify(kid));
   } catch (err) {
     console.log(err);
-    return res.send(err);
+    return res.json({ err: 'internal error' });
   }
 });
 
@@ -57,11 +57,11 @@ childRouter.delete('/deleteChild', async (req, res) => {
   try {
     parent = await User.findOne({ userName: req.user });
     if (parent == null) {
-      return res.send('doent exist');
+      return res.json({ err: 'id incorect' });
     }
   } catch (err) {
     console.log(err);
-    return res.send(err);
+    return res.json({ err: 'internal error' });
   }
   const index = parent.children.indexOf(id);
   if (index > -1) {
@@ -74,12 +74,29 @@ childRouter.delete('/deleteChild', async (req, res) => {
 childRouter.get('/getParent', async (req, res) => {
   try {
     const parent = await User.findOne({ userName: req.user });
-    if (parent == null) { return res.send('doent exist'); }
+    if (parent == null) { return res.json({ err: 'id incorect' }); }
 
     return res.json(parent);
   } catch (err) {
     console.log(err);
-    return res.send(err);
+    return res.json({ err: 'internal error' });
+  }
+});
+
+childRouter.patch('/favoriteStatus', async (req, res) => {
+  const { status } = JSON.parse(req.body);
+  const { id } = JSON.parse(req.body);
+
+  try {
+    const kid = await Child.findById(id);
+    if (kid == null) {
+      return res.json({ err: 'id invalid' });
+    }
+    kid.favorite = status;
+    kid.save();
+  } catch (err) {
+    console.log(err);
+    return res.json({ err: 'internal error' });
   }
 });
 

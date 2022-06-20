@@ -55,6 +55,11 @@ async function generateCards() {
     console.log(error);
   }
   const body = await response.json();
+  console.log('before sort');
+  console.log(body);
+  body.sort((x, y) => ((x.favorite === y.favorite) ? 0 : x.favorite ? -1 : 1));
+  console.log('after sort');
+  console.log(body);
   const container = document.getElementsByClassName('grid-container')[0];
 
   for (const kid of body) {
@@ -80,8 +85,12 @@ async function generateCards() {
     favButton.setAttribute('type', 'image');
     favButton.setAttribute('class', 'favorite-button');
     favButton.setAttribute('slot', 'cat-favorite');
-    favButton.setAttribute('src', './assets/star-empty.png');
-    favButton.setAttribute('onClick', `favoriteChild("${kid._id}")`);
+    if (kid.favorite) {
+      favButton.setAttribute('src', './assets/star-full.png');
+    } else {
+      favButton.setAttribute('src', './assets/star-empty.png');
+    }
+    favButton.setAttribute('onClick', `favoriteChild(event,"${kid._id}")`);
     newCat.appendChild(favButton);
 
     const settingButton = document.createElement('input');
@@ -175,16 +184,50 @@ async function deleteChild(id) {
       console.log(error);
     }
 
-    console.log(response);
+    const body = await response.json();
+    if (Object.prototype.hasOwnProperty.call(body, 'err')) {
+      alert(body.err);
+    }
   }
 }
 
-function favoriteChild(id) {
+async function favoriteChild(e, id) {
   console.log(id);
+  let status;
   if (e.target.src.includes('star-empty')) {
-    e.target.src = e.target.src.replace('star-empty', 'star-full');
-  } else {
+    if (confirm('Do you want to add this cat to favorites?')) {
+      e.target.src = e.target.src.replace('star-empty', 'star-full');
+      status = true;
+    } else {
+      return;
+    }
+  } else if (confirm('Do you want to remove this cat from favorites?')) {
     e.target.src = e.target.src.replace('star-full', 'star-empty');
+    status = false;
+  } else {
+    return;
+  }
+
+  let response;
+  try {
+    response = await fetch('http://127.0.0.1/child/favoriteStatus', {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status, id }),
+      credentials: 'include',
+    });
+    if (response.redirected) {
+      window.location.href = response.url;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  const body = await response.json();
+  if (Object.prototype.hasOwnProperty.call(body, 'err')) {
+    alert(body.err);
   }
 }
 window.onload = function () {
@@ -262,5 +305,7 @@ const addChildForm = async (event) => {
     console.log(error);
   }
   const body = await response.json();
-  // TO DO CHECK EROARE
+  if (Object.prototype.hasOwnProperty.call(body, 'err')) {
+    alert(body.err);
+  }
 };
