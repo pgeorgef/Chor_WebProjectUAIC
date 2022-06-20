@@ -11,11 +11,8 @@ customElements.define(
   },
 );
 
-
-
 async function textBox() {
   const id = localStorage.getItem('idCat');
-  // <input type="image" src="./assets/logout.png" class="logout">
   let response;
   try {
     response = await fetch('http://127.0.0.1/child/getParent', {
@@ -49,6 +46,7 @@ async function textBox() {
       window.location.href = response2.url;
     }
   } catch (error) {
+    // to do
   }
   let kid = await response.json();
   kid = JSON.parse(kid);
@@ -76,7 +74,6 @@ async function textBox() {
                 DEVICE INFO: ${deviceInfo}<br>
                 `;
 
-
   document.createTextNode(text);
   paragraph.innerHTML = text;
 }
@@ -88,25 +85,55 @@ function goToCam() {
   console.log(localStorage.getItem('idCat'));
   window.location.replace('camPage.html');
 }
-function generateCards() {
-  const numCats = 9; // this is going to be fetched from the backend
+async function generateCards() {
+  let response;
+  try {
+    response = await fetch('http://127.0.0.1/child/getAllChildren', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+    if (response.redirected) {
+      window.location.href = response.url;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  const body = await response.json();
 
   const container = document.getElementsByClassName('grid-container')[0];
   container.setAttribute('border-radius', '50%');
-  for (let i = 0; i < numCats; ++i) {
-    const newCat = document.createElement('div');
-    newCat.setAttribute('class', `cat-${i}`);
-    const catImg = document.createElement('img');
-    catImg.setAttribute('class', 'card-image');
-    catImg.setAttribute('onClick', 'catPage()');
-    catImg.setAttribute('src', 'http://placekitten.com/200/300'); // image from back
-    newCat.appendChild(catImg);
-    container.appendChild(newCat);
+
+  console.log(body);
+  let i = 0;
+  for (const kid of body) {
+    if (kid._id != localStorage.getItem('idCat')) {
+      const newCat = document.createElement('div');
+      newCat.setAttribute('class', `cat-${kid._id}`);
+      const catImg = document.createElement('img');
+      catImg.setAttribute('class', 'card-image');
+      catImg.setAttribute('onClick', `catPage("${kid._id}")`);
+      catImg.setAttribute('src', kid.imgPath);
+      newCat.appendChild(catImg);
+      container.appendChild(newCat);
+      i++;
+      if (i == 9) {
+        return;
+      }
+    }
   }
+}
+
+function catPage(idCat) {
+  console.log(idCat);
+  localStorage.setItem('idCat', idCat);
+  window.location.replace('infoPage.html'); // hacky, needs to be changed
 }
 
 window.onload = function () {
   generateCards();
   textBox();
 };
-
