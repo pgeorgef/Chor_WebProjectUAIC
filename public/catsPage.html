@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <link href="./stylesheets/catsPage.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <title>Cats page</title>
+    <script defer  src="./scripts/cat-card.js"></script>
+
+</head>
+
+<body>
+    <template id="cat-card">
+        <div class="card-container">
+            <link href="./stylesheets/catsPage.css" rel="stylesheet">
+            <slot name="cat-delete"></slot>
+            <slot name="cat-favorite">need id</slot>
+            <slot name="cat-image">need-image</slot>
+            <slot name="cat-name">need name</slot> 
+            <slot name="settingsButton">settings</slot>
+        </div>
+
+    </template>
+    <div class="header font" ></div>
+    <img src="./assets/logout.png" class="logout" alt="logout"  onclick="logout()">
+    
+    <div class="grid-container">
+    </div>
+    <div class="addChildPopup">
+        <div class="formPopup" id="popupForm">
+            <form class="formContainer" autocomplete="off" onsubmit="addChildForm(event)">
+                <label for="frst">
+                    <strong>First Name</strong>
+                </label>
+                <input type="text" id="firstName" class="firstName" placeholder="First Name" name="firstName" onkeydown="return /[a-z ]/i.test(event.key)" required>
+                <label for="last">
+                    <strong>Last Name</strong>
+                </label>
+
+                <input type="text" id="lastName"  class="lastName" placeholder="Last Name" name="lastName" onkeydown="return /[a-z -]/i.test(event.key)" required>
+                <label for="addr">
+                    <strong>Address</strong>
+                </label>
+
+                <input type="text" id="address" class="address" placeholder="Address" name="address" onkeydown="return /[a-z ,\-0-9]/i.test(event.key)" required>
+
+                <label for="ip">
+                    <strong>IP</strong>
+                </label>
+                <input type="text" id="ip" class="ip" placeholder="IP" name="ip" onkeydown="return /[0-9.]/i.test(event.key)" required>
+
+
+                <label for="birth">
+                    <strong>Birth Date</strong>
+                </label>
+                <br>
+                <input type="date" id="birthday" class="birthday" name="birthDay"  required>
+                <br>
+                
+                <label for="image">
+                    <strong>Profile image</strong>
+                </label>
+                <input type="file" accept="image/*" id="file" required>
+
+                <button type="submit" class="submitAddChild"> Add </button>
+                <button type="button" class="cancelButton" onclick="closeForm()">Close</button>
+            </form>
+        </div>
+
+    </div>
+    <div class="editChildPopup">
+        <div class="formPopup" id="editPopupForm">
+            <form class="formContainer" autocomplete="off" onsubmit="saveSettingsChild(event)">
+                <label for="frst">
+                    <strong>First Name</strong>
+                </label>
+                <input type="text" id="firstNameEdit" class="firstNameEdit" placeholder="First Name" name="firstNameEdit" onkeydown="return /[a-z -]/i.test(event.key)" required>
+                
+                <label for="last">
+                    <strong>Last Name</strong>
+                </label>
+                <input type="text" id="lastNameEdit"  class="lastNameEdit" placeholder="Last Name" name="lastNameEdit" onkeydown="return /[a-z -]/i.test(event.key)" required>
+                
+                <label for="addr">
+                    <strong>Address</strong>
+                </label>
+                <input type="text" id="addressEdit" class="addressEdit" placeholder="Address" name="addressEdit" onkeydown="return /[a-z ,\-0-9]/i.test(event.key)" required>
+
+                <label for="ip">
+                    <strong>IP</strong>
+                </label>
+                <input type="text" id="ipEdit" class="ipEdit" placeholder="IP" name="ipEdit" onkeydown="return /[0-9.]/i.test(event.key)" required>
+
+
+                <label for="birth">
+                    <strong>Birth Date</strong>
+                </label>
+                <br>
+                <input type="date" id="birthdayEdit" class="birthdayEdit" name="birthDayEdit" required>
+                <br>
+
+                <button type="submit" class="submitEditChild" id="disablingButtonEdit"> Edit </button>
+                <button type="button" class="cancelButtonEdit" onclick="closeFormEdit()">Close</button>
+            </form>
+        </div>
+
+    </div>
+    <div id="overlay"></div>
+
+
+</html>

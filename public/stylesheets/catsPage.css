@@ -1,0 +1,303 @@
+*{
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+body{
+    background-color: #5CDB95;
+}
+
+.grid-container{
+
+    display: grid;
+    padding-top: 3em;
+    justify-content: center;
+    grid-template-columns: repeat(3, 24vw);
+    column-gap: 100px;
+    row-gap: 200px;
+}
+
+[class*="cat"]{
+    display: table-column;
+    row-gap: 2em;
+    column-gap: 50px;
+    height: 12em;
+    width: 26vw;
+}
+
+.card-image{
+    height: 12vw;
+    width: 17vw;
+    margin-left: 3vw;
+    margin-top: 2vh;
+    cursor: pointer;
+    border-radius: 6px;
+}
+.card-name{
+    margin-left: 3vw;
+    margin-top: 0.4vw;
+}
+.card-container{
+    height: 17vw;
+    width: 24vw;
+    background-color: #EDF5E1 ;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border-radius: 6px;
+}
+.delete-button{
+    position: absolute;
+    height: 3em;
+    width: 3em;
+}
+.favorite-button{
+    position: relative;
+    right: 0;
+    height: 3em;
+    width: 3em;
+    float: right;
+    clear: none;
+}
+
+.settings-button{
+    position: relative;
+    right: 0;
+    /* TO DO MUTAT BUTON SETINGS */
+    height: 3em;
+    width: 3em;
+    float: right;
+    clear: none;
+}
+
+.settings-button{
+    position: relative;
+    right: 0;
+    height: 3em;
+    width: 3em;
+    float: right;
+    clear: none;
+}
+.logout{
+    height: 3em;
+    width: 3em;
+    position: absolute;
+    cursor: pointer;
+}
+.card-name{
+    margin-top: -0.025em;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.8px;
+    word-spacing: -5px;
+    color: black;
+    font-weight: 700;
+    text-decoration: none solid rgb(68, 68, 68);
+    font-style: normal;
+    font-variant: small-caps;
+    text-transform: none;
+    vertical-align: middle;
+    display: inline-block;
+    text-align: justify;
+}
+.add-child-button{
+    height: 2.5em;
+    width: 7em;
+    margin: 0;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    letter-spacing: 0.8px;
+    word-spacing: -5px;
+    font-weight: 700;
+    text-decoration: none solid rgb(68, 68, 68);
+    font-style: normal;
+    text-transform: none;
+    color: white;
+    background-color: #053864;
+    border-radius: 8px;
+}
+.formPopup {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 5%;
+    transform: translate(-50%, 5%);
+    border: 3px solid lightgray;
+    z-index: 29;
+  }
+  .formContainer {
+    max-width: 25em;
+    padding: 20px;
+    background-color: #EDF5E1;
+  }
+  .formContainer input {
+    width: 90%;
+    padding: 15px;
+    margin: 5px 0 20px 0;
+    border: none;
+    background: #FFFFFF;
+  }
+  #birthday{
+      margin-top: 0.5em;
+  }
+  #file{
+    margin-top: 0.5em;
+    display: block;
+  }
+  .submitAddChild{
+      margin-top: 2em;
+      font-family: "Trebuchet MS", Helvetica, sans-serif;
+      letter-spacing: 0.8px;
+      word-spacing: -5px;
+      font-weight: 700;
+      text-decoration: none solid rgb(68, 68, 68);
+      font-style: normal;
+      text-transform: none;
+      color: white;
+      background-color: #053864;
+      border-radius: 8px;
+      height: 2em;
+      width: 5em;
+
+  }
+  .submitEditChild{
+    margin-top: 2em;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    letter-spacing: 0.8px;
+    word-spacing: -5px;
+    font-weight: 700;
+    text-decoration: none solid rgb(68, 68, 68);
+    font-style: normal;
+    text-transform: none;
+    color: white;
+    background-color: #053864;
+    border-radius: 8px;
+    height: 2em;
+    width: 5em;
+
+}
+  .cancelButton{
+    height: 2em;
+    width: 5em;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    letter-spacing: 0.8px;
+    word-spacing: -5px;
+    font-weight: 700;
+    text-decoration: none solid rgb(68, 68, 68);
+    font-style: normal;
+    text-transform: none;
+
+    border-radius: 8px;
+  }
+  .cancelButtonEdit{
+    height: 2em;
+    width: 5em;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    letter-spacing: 0.8px;
+    word-spacing: -5px;
+    font-weight: 700;
+    text-decoration: none solid rgb(68, 68, 68);
+    font-style: normal;
+    text-transform: none;
+
+    border-radius: 8px;
+  }
+
+  .font{
+    text-indent: 1.5vw;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 2.2vw;
+    letter-spacing: 0.01vw;
+    color: white;
+    font-weight: 700;
+    text-decoration: none solid rgb(68, 68, 68);
+    font-style: normal;
+    font-variant: small-caps;
+    text-transform: none;
+    vertical-align: middle;
+    display: inline-block;
+    margin: 0.25vw;
+    padding: 0.1vw;
+    text-align: justify;
+}
+
+.header{
+    position: absolute;
+    left: 6%;
+}
+
+#overlay {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index: 28;
+    background: gray;
+    position: fixed; /*Add fixed position */
+    opacity:0.3; /*Add opacity optional  */
+}
+  @media screen and (max-width: 1400px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 34vw); 
+    }
+    .card-image{
+        height: 19vw;
+        width: 25vw;
+    }
+    .card-container{
+        height: 25vw;
+        width: 34vw;
+    }
+  }
+  
+@media screen and (max-width: 1000px) {
+  .grid-container {
+      grid-template-columns: repeat(1, 55vw); 
+      row-gap: 15em;
+  }
+  .card-image{
+      height: 28vw;
+      width: 40vw;
+  }
+  .card-container{
+      height: 40vw;
+      width: 55vw;
+  }
+}
+
+
+@media screen and (max-width: 900px) {
+    .grid-container {
+        row-gap: 15em;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .grid-container {
+        row-gap: 13em;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .grid-container {
+        row-gap: 10em;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .grid-container {
+        row-gap: 3em;
+    }
+
+    .card-image{
+        height: 20vw;
+        width: 30vw;
+    }
+    .card-container{
+        height: 30vw;
+        width: 50vw;
+    }
+}

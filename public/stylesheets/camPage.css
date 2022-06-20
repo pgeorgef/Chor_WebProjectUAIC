@@ -1,0 +1,327 @@
+*{
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+body{
+    background-color: #5CDB95;
+}
+
+.logout{
+    height: 3em;
+    width: 3em;
+}
+/*buttons*/
+@keyframes bigCircle {
+    0%,100% {
+        transform: scale(1.0);
+    }
+    25%,75% {
+        transform: scale(1.25);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+}
+
+.dotHome {
+    position: absolute;
+    opacity: 0.6;
+    height: 3vw;
+    width: 3vw;
+    top: 24%;
+    right: 92%;
+    background-color: #053864;
+    border-radius: 50%;
+    display: inline-block;
+}
+.dotHome1 {
+    position: absolute;
+    opacity: 0.6;
+    height: 3vw;
+    width: 3vw;
+    top: 24%;
+    right: 92%;
+    background-color: #053864;
+    border-radius: 50%;
+    display: inline-block;
+    z-index: -1;
+    opacity: 0.5;
+    animation: bigCircle 1.5s linear infinite;
+}
+.homeButton{
+    opacity: 0.6;
+    position: absolute;
+    text-indent: 1.5vw;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 2.2vw;
+    letter-spacing: 0.01vw;
+    color: white;
+    font-weight: 700;
+    text-decoration: none solid rgb(68, 68, 68);
+    font-style: normal;
+    font-variant: small-caps;
+    text-transform: none;
+    vertical-align: middle;
+    display: inline-block;
+    left: 7%;
+    top: 23.8%;
+    margin: 0.25vw;
+    padding: 0.1vw;
+    text-align: justify;
+}
+.dotHome:hover {
+    transform: scale(1.15);
+    cursor: pointer;
+}
+.dotHome:not(:hover) + .dotHome1{
+    display: none;
+    opacity: 0.5;
+    z-index: 10;
+}
+
+.dotMap {
+    position: absolute;
+    opacity: 0.6;
+    height: 3vw;
+    width: 3vw;
+    top: 48%;
+    right: 86%;
+    background-color: #053864;
+    border-radius: 50%;
+    display: inline-block;
+}
+.dotMap1{
+    position: absolute;
+    opacity: 0.6;
+    height: 3vw;
+    width: 3vw;
+    top: 48%;
+    right: 86%;
+    background-color: #053864;
+    border-radius: 50%;
+    display: inline-block;
+    z-index: -1;
+    opacity: 0.5;
+    animation: bigCircle 1.5s linear infinite;
+}
+.mapButton{
+    opacity: 0.6;
+    position: absolute;
+    text-indent: 1.5vw;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 2.2vw;
+    letter-spacing: 0.01vw;
+    color: white;
+    font-weight: 700;
+    text-decoration: none solid rgb(68, 68, 68);
+    font-style: normal;
+    font-variant: small-caps;
+    text-transform: none;
+    vertical-align: middle;
+    display: inline-block;
+    left: 13%;
+    top: 47.5%;
+    margin: 0.25vw;
+    padding: 0.1vw;
+    text-align: justify;
+}
+.dotMap:hover{
+    cursor: pointer;
+    transform: scale(1.15);
+}
+.dotMap:not(:hover)  + .dotMap1  {
+    display: none;
+    z-index: 10;
+    opacity: 0.5;
+}
+
+.dotCam {
+    position: absolute;
+    height: 3vw;
+    width: 3vw;
+    top: 71%;
+    right: 92%;
+    background-color: #053864;
+    border-radius: 50%;
+    display: inline-block;
+}
+.dotCam1{
+    position: absolute;
+    height: 3vw;
+    width: 3vw;
+    top: 71%;
+    right: 92%;
+    background-color: #053864;
+    border-radius: 50%;
+    display: inline-block;
+    z-index: -1;
+    opacity: 0.5;
+    animation: bigCircle 1.5s linear infinite;
+}
+.camButton{
+    position: absolute;
+    text-indent: 1.5vw;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 2.2vw;
+    letter-spacing: 0.01vw;
+    color: white;
+    font-weight: 700;
+    text-decoration: none solid rgb(68, 68, 68);
+    font-style: normal;
+    font-variant: small-caps;
+    text-transform: none;
+    vertical-align: middle;
+    display: inline-block;
+    left: 7%;
+    top: 70.5%;
+    margin: 0.25vw;
+    padding: 0.1vw;
+    text-align: justify;
+}
+.dotCam:hover{
+    cursor: pointer;
+    transform: scale(1.15);
+}
+.dotCam:not(:hover) + .dotCam1{
+    opacity: 0.5;
+
+    display: none;
+}
+
+@media screen and (max-width: 1000px) {
+    .dotHome {
+        position: absolute;
+        opacity: 0.6;
+        height: 3vw;
+        width: 3vw;
+        top: 5%;
+        right: 75%;
+        background-color: #053864;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    .dotHome1 {
+        position: absolute;
+        opacity: 0.6;
+        height: 3vw;
+        width: 3vw;
+        top: 5%;
+        right: 75%;
+        background-color: #053864;
+        border-radius: 50%;
+        display: inline-block;
+        z-index: -1;
+        opacity: 0.5;
+        animation: bigCircle 1.5s linear infinite;
+    }
+    .homeButton{
+        position: absolute;
+        opacity: 0.6;
+        text-indent: 1.5vw;
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        font-size: 2.2vw;
+        letter-spacing: 0.01vw;
+        color: white;
+        font-weight: 700;
+        text-decoration: none solid rgb(68, 68, 68);
+        font-style: normal;
+        font-variant: small-caps;
+        text-transform: none;
+        vertical-align: middle;
+        display: inline-block;
+        left: 18%;
+        top: 10%;
+        margin: 0.1vw;
+        padding: 0.1vw;
+        text-align: justify;
+    }
+    .dotMap {
+        position: absolute;
+        opacity: 0.6;
+        height: 3vw;
+        width: 3vw;
+        top: 5%;
+        right: 50%;
+        background-color: #053864;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    .dotMap1{
+        position: absolute;
+        opacity: 0.6;
+        height: 3vw;
+        width: 3vw;
+        top: 5%;
+        right: 50%;
+        background-color: #053864;
+        border-radius: 50%;
+        display: inline-block;
+        z-index: -1;
+        opacity: 0.5;
+        animation: bigCircle 1.5s linear infinite;
+    }
+    .mapButton{
+        opacity: 0.6;
+        position: absolute;
+        text-indent: 1.5vw;
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        font-size: 2.2vw;
+        letter-spacing: 0.01vw;
+        color: white;
+        font-weight: 700;
+        text-decoration: none solid rgb(68, 68, 68);
+        font-style: normal;
+        font-variant: small-caps;
+        text-transform: none;
+        vertical-align: middle;
+        display: inline-block;
+        left: 44.8%;
+        top: 10%;
+        margin: 0.1vw;
+        padding: 0.1vw;
+        text-align: justify;
+    }
+    .dotCam {
+        position: absolute;
+        height: 3vw;
+        width: 3vw;
+        top: 5%;
+        right: 25%;
+        background-color: #053864;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    .dotCam1{
+        position: absolute;
+        height: 3vw;
+        width: 3vw;
+        top: 5%;
+        right: 25%;
+        background-color: #053864;
+        border-radius: 50%;
+        display: inline-block;
+        z-index: -1;
+        opacity: 0.5;
+        animation: bigCircle 1.5s linear infinite;
+    }
+    .camButton{
+        position: absolute;
+        text-indent: 1.5vw;
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        font-size: 2.2vw;
+        letter-spacing: 0.01vw;
+        color: white;
+        font-weight: 700;
+        text-decoration: none solid rgb(68, 68, 68);
+        font-style: normal;
+        font-variant: small-caps;
+        text-transform: none;
+        vertical-align: middle;
+        display: inline-block;
+        left: 68%;
+        top: 10%;
+        margin: 0.1vw;
+        padding: 0.1vw;
+        text-align: justify;
+    }
+}
