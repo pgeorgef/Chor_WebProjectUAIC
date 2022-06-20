@@ -45,6 +45,34 @@ childRouter.post('/getChild', async (req, res) => {
   }
 });
 
+childRouter.patch('/editChild', async (req, res) => {
+  console.log('/chil/editChild');
+  console.log(req.body);
+  const { id } = JSON.parse(req.body).editChildFormData;
+  const editChildFormData = {
+    firstName: JSON.parse(req.body).editChildFormData.firstName,
+    lastName: JSON.parse(req.body).editChildFormData.lastName,
+    adress: JSON.parse(req.body).editChildFormData.adress,
+    dateOfBirth: JSON.parse(req.body).editChildFormData.dateOfBirth,
+  };
+  console.log(`ID-UL ESTE ${id}`);
+  console.log('``````````````````````');
+  console.log(`id-ul userului este:${req.user}`);
+  try {
+    console.log(`id este: ${id}`);
+    const child = await Child.findById(id);
+    child.firstName = editChildFormData.firstName;
+    child.lastName = editChildFormData.lastName;
+    child.adress = editChildFormData.adress;
+    child.IP = editChildFormData.IP;
+    child.dateOfBirth = editChildFormData.dateOfBirth;
+    child.save();
+    res.redirect('../catsPage');
+  } catch (error) {
+    return res.json({ err: 'error while editing the child' });
+  }
+});
+
 childRouter.delete('/deleteChild', async (req, res) => {
   const { id } = JSON.parse(req.body);
   console.log(`id-ul userului este:${req.user}`);

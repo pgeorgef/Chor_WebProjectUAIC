@@ -121,6 +121,7 @@ async function generateCards() {
   container.appendChild(addChild);
 }
 async function settingsChild(id) {
+  localStorage.setItem('idEdit', id);
   let response;
   try {
     response = await fetch('http://127.0.0.1/child/getChild', {
@@ -140,24 +141,84 @@ async function settingsChild(id) {
   }
   let body = await response.json();
   body = JSON.parse(body);
-  console.log(body);
-
-  document.getElementById('popupForm').style.display = 'block';
-  const popup = document.getElementById('popupForm');
+  document.getElementById('editPopupForm').style.display = 'block';
+  const popup = document.getElementById('editPopupForm');
   const container = popup.getElementsByClassName('formContainer')[0];
-  const firstName = container.getElementsByClassName('firstName')[0];
+  const firstName = container.getElementsByClassName('firstNameEdit')[0];
   firstName.value = body.firstName;
-  const lastName = container.getElementsByClassName('lastName')[0];
+  const lastName = container.getElementsByClassName('lastNameEdit')[0];
   lastName.value = body.lastName;
 
-  const address = container.getElementsByClassName('address')[0];
+  const address = container.getElementsByClassName('addressEdit')[0];
   address.value = body.adress;
 
-  const birthday = container.getElementsByClassName('birthday')[0];
+  const ip = container.getElementsByClassName('ipEdit')[0];
+  ip.value = body.IP;
+
+  const birthday = container.getElementsByClassName('birthdayEdit')[0];
   let birth = body.dateOfBirth;
   birth = birth.slice(0, 10);
-  console.log(birth);
   birthday.value = birth;
+}
+function closeForm() {
+  document.getElementById('popupForm').style.display = 'none';
+  overlay.style.display = 'none';
+}
+function closeFormEdit() {
+  document.getElementById('editPopupForm').style.display = 'none';
+  overlay.style.display = 'none';
+}
+
+const validateFirstName = async (firstName) => {
+  const firstNameRegex = /^([A-Z]|[a-z])[a-z]+((-| )([A-Z]|[a-z])[a-z]+)*$/;
+  if (!firstNameRegex.test(firstName) || firstNameRegex.length > 50 || firstName === undefined) {
+    return true;
+  }
+  return false;
+};
+
+const validateLastName = async (lastName) => {
+  const lastNameRegex = /^([A-Z]|[a-z])[a-z]+$/;
+  if (!lastNameRegex.test(lastName) || lastName === undefined) {
+    console.log('invalid last name');
+    return true;
+  }
+  return false;
+};
+
+async function saveSettingsChild(event) {
+  event.preventDefault();
+  closeFormEdit();
+
+  const id = localStorage.getItem('idEdit');
+  const editChildFormData = {
+    firstName: document.getElementById('firstNameEdit').value,
+    lastName: document.getElementById('lastNameEdit').value,
+    adress: document.getElementById('addressEdit').value,
+    IP: document.getElementById('ipEdit').value,
+    dateOfBirth: document.getElementById('birthdayEdit').value,
+    id,
+  };
+  console.log('^^^^^^^^^');
+  console.log(editChildFormData.id);
+  console.log('vvvvvvv');
+  let response;
+  try {
+    response = await fetch('http://127.0.0.1/child/editChild', {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ editChildFormData }),
+      credentials: 'include',
+    });
+    if (response.redirected) {
+      window.location.href = response.url;
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
 function catPage(idCat) {
   console.log(idCat);
@@ -230,18 +291,19 @@ async function favoriteChild(e, id) {
     alert(body.err);
   }
 }
+function limitDate() {
+  document.getElementById('birthday').max = new Date().toISOString().slice(0, -14);
+  document.getElementById('birthdayEdit').max = new Date().toISOString().slice(0, -14);
+}
 window.onload = function () {
   generateCards();
   generateHeader();
+  limitDate();
 };
 
 function openForm() {
   document.getElementById('popupForm').style.display = 'block';
   overlay.style.display = 'block';
-}
-function closeForm() {
-  document.getElementById('popupForm').style.display = 'none';
-  overlay.style.display = 'none';
 }
 
 const logout = async () => {
@@ -276,9 +338,9 @@ const addChildForm = async (event) => {
     firstName: document.getElementById('firstName').value,
     lastName: document.getElementById('lastName').value,
     adress: document.getElementById('address').value,
+    IP: document.getElementById('ip').value,
     dateOfBirth: document.getElementById('birthday').value,
   };
-
   let response;
   const formImage = URL.createObjectURL(document.getElementById('file').files[0]);
   console.log('imagine este:');

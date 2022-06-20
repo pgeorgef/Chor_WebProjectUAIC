@@ -7,6 +7,10 @@ const childSchema = new Schema({
     type: String,
     required: true,
   },
+  IP: {
+    type: String,
+    required: true,
+  },
   lastName: {
     type: String,
     required: true,
