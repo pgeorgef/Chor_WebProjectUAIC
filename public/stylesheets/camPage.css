@@ -14,6 +14,8 @@ body{
     position: relative;
     left: 32%;
     margin-top: 6.25%;
+    height: 600px;
+    width: 800px;
 }
 
 .logout{
@@ -204,8 +206,10 @@ body{
 @media screen and (max-width: 1000px) {
     .camera{
         position: relative;
-        left: 10%;
+        left: 18%;
         margin-top: 16.25%;
+        height: 480px;
+        width: 640px;
     }
     .dotHome {
         position: absolute;
@@ -340,6 +344,153 @@ body{
         display: inline-block;
         left: 68%;
         top: 10%;
+        margin: 0.1vw;
+        padding: 0.1vw;
+        text-align: justify;
+        cursor: pointer;
+    }
+}
+@media screen and (max-width: 750px) {
+    .camera{
+        position: relative;
+        left: 16%;
+        margin-top: 25.25%;
+        height: 320px;
+        width: auto;
+    }
+    .dotHome {
+        position: absolute;
+        opacity: 0.6;
+        height: 3vw;
+        width: 3vw;
+        top: 3%;
+        right: 75%;
+        background-color: #053864;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    .dotHome1 {
+        position: absolute;
+        opacity: 0.6;
+        height: 3vw;
+        width: 3vw;
+        top: 3%;
+        right: 75%;
+        background-color: #053864;
+        border-radius: 50%;
+        display: inline-block;
+        z-index: -1;
+        opacity: 0.5;
+        animation: bigCircle 1.5s linear infinite;
+    }
+    .homeButton{
+        position: absolute;
+        opacity: 0.6;
+        text-indent: 1.5vw;
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        font-size: 2.2vw;
+        letter-spacing: 0.01vw;
+        color: white;
+        font-weight: 700;
+        text-decoration: none solid rgb(68, 68, 68);
+        font-style: normal;
+        font-variant: small-caps;
+        text-transform: none;
+        vertical-align: middle;
+        display: inline-block;
+        left: 18%;
+        top: 5%;
+        margin: 0.1vw;
+        padding: 0.1vw;
+        text-align: justify;
+        cursor: pointer;
+    }
+    .dotMap {
+        position: absolute;
+        opacity: 0.6;
+        height: 3vw;
+        width: 3vw;
+        top: 3%;
+        right: 50%;
+        background-color: #053864;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    .dotMap1{
+        position: absolute;
+        opacity: 0.6;
+        height: 3vw;
+        width: 3vw;
+        top: 3%;
+        right: 50%;
+        background-color: #053864;
+        border-radius: 50%;
+        display: inline-block;
+        z-index: -1;
+        opacity: 0.5;
+        animation: bigCircle 1.5s linear infinite;
+    }
+    .mapButton{
+        opacity: 0.6;
+        position: absolute;
+        text-indent: 1.5vw;
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        font-size: 2.2vw;
+        letter-spacing: 0.01vw;
+        color: white;
+        font-weight: 700;
+        text-decoration: none solid rgb(68, 68, 68);
+        font-style: normal;
+        font-variant: small-caps;
+        text-transform: none;
+        vertical-align: middle;
+        display: inline-block;
+        left: 44.8%;
+        top: 5%;
+        margin: 0.1vw;
+        padding: 0.1vw;
+        text-align: justify;
+        cursor: pointer;
+    }
+    .dotCam {
+        position: absolute;
+        height: 3vw;
+        width: 3vw;
+        top: 3%;
+        right: 25%;
+        background-color: #053864;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    .dotCam1{
+        position: absolute;
+        height: 3vw;
+        width: 3vw;
+        top: 3%;
+        right: 25%;
+        background-color: #053864;
+        border-radius: 50%;
+        display: inline-block;
+        z-index: -1;
+        opacity: 0.5;
+        animation: bigCircle 1.5s linear infinite;
+    }
+    .camButton{
+        position: absolute;
+        text-indent: 1.5vw;
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        font-size: 2.2vw;
+        letter-spacing: 0.01vw;
+        color: white;
+        font-weight: 700;
+        text-decoration: none solid rgb(68, 68, 68);
+        font-style: normal;
+        font-variant: small-caps;
+        text-transform: none;
+        vertical-align: middle;
+        display: inline-block;
+        left: 68%;
+        top: 5%;
         margin: 0.1vw;
         padding: 0.1vw;
         text-align: justify;
