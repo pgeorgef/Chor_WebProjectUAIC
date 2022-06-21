@@ -3,9 +3,38 @@
 #define SSID_PASWORD ""
 #include <Arduino.h>
 #include <TinyGPSPlus.h>
+#include <WifiLocation.h>
+#include <Wire.h>
+#include "MAX30105.h"
+#include "heartRate.h"
+
+// core heartRate
+TaskHandle_t HeartTask;
+void HeartTaskcode(void * pvParameters);
+
+// gps settings
+#define DEBUG_WIFI_LOCATION 1
+const char* googleApiKey = "";
+WifiLocation location(googleApiKey);
+
+//heartrate sensor settings
+MAX30105 particleSensor;
+const byte RATE_SIZE = 4; //Increase this for more averaging. 4 is good.
+byte rates[RATE_SIZE]; //Array of heart rates
+byte rateSpot = 0;
+long lastBeat = 0; //Time at which the last beat occurred
+
+float beatsPerMinute;
+int beatAvg;
+float temperature;
+long irValue;
+long delta;
+#define I2C_SDA 14 // SDA Connected to GPIO 14
+#define I2C_SCL 15 // SCL Connected to GPIO 15
+TwoWire I2CSensors = TwoWire(0);
 
 // camera settings
-framesize_t FRAME_SIZE_IMAGE = FRAMESIZE_XGA;
+framesize_t FRAME_SIZE_IMAGE = FRAMESIZE_SVGA;
 #define PIXFORMAT PIXFORMAT_JPEG;
 int cameraImageExposure = 0;   // Camera exposure (0 - 1200)   If gain and exposure both set to zero then auto adjust is enabled
 int cameraImageGain = 0;       // Image gain (0 - 30)
@@ -43,24 +72,22 @@ WebServer server(80);
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
 #include <string.h>
-#include <HardwareSerial.h>
-HardwareSerial SerialGPS(2);
 
-#define RXD2 13
-#define TXD2 14
+
 float latitude , longitude;
 String  latitude_string , longitiude_string;
 TinyGPSPlus gps;
 std::string nmea;
 byte gpsData;
 void handleRoot();
+void handleHeart();
 bool getNTPtime(int sec);
 void handleStream();
+void handleLocation();
 void sendHeader(WiFiClient &client, char* hTitle);
 void sendFooter(WiFiClient &client);
 bool initialiseCamera();
 bool cameraImageSettings();
-//SoftwareSerial ss(RXD2, TXD2);
 void setup()
 {
   //Serial.begin(9600); // Start //Serial communication
@@ -71,7 +98,8 @@ void setup()
   Serial.println("-----------------------------------");
   Serial.println("-----------------------------------");
   Serial.begin(SerialSpeed);
-  SerialGPS.begin(9600, SERIAL_8N1, RXD2, TXD2);
+  uint32_t frecv= 100000;
+  I2CSensors.begin(I2C_SDA, I2C_SCL, frecv);
   WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); // Turn-off the 'brownout detector'
   WiFi.begin(SSID_NAME, SSID_PASWORD);
   while (WiFi.status() != WL_CONNECTED)
@@ -85,6 +113,8 @@ void setup()
   server.begin();
   server.on("/", handleRoot);
   server.on("/stream", handleStream);
+  server.on("/location", handleLocation);
+  server.on("/heart", handleHeart);
   // NTP - internet time
   Serial.println("\nGetting real time (NTP)");
   configTime(0, 0, ntpServer);
@@ -107,8 +137,75 @@ void setup()
     Serial.println("failed");
   }
   Serial.println("\nStarted...");
+  location_t loc = location.getGeoFromWiFi();
+
+  Serial.println("Location request data");
+  Serial.println(location.getSurroundingWiFiJson());
+  Serial.println("Latitude: " + String(loc.lat, 7));
+  Serial.println("Longitude: " + String(loc.lon, 7));
+  Serial.println("Accuracy: " + String(loc.accuracy));
+    if (!particleSensor.begin(I2CSensors)) //Use default I2C port, 400kHz speed
+  {
+    Serial.println("MAX30102 was not found. Please check wiring/power. ");
+
+  }
+  else{
+      particleSensor.setup(); //Configure sensor with default settings
+  particleSensor.setPulseAmplitudeRed(0x0A); //Turn Red LED to low to indicate sensor is running
+  particleSensor.setPulseAmplitudeGreen(0); //Turn off Green LED
+  xTaskCreatePinnedToCore(
+    HeartTaskcode,
+    "Heart",
+    10000,
+    NULL,
+    1,
+    &HeartTask,
+    0
+  );
+  }
+
+}
+
+void HeartTaskcode(void * pvParameters){
+  Serial.print("heart task on core: ");
+  Serial.println(xPortGetCoreID());
+  while(1){
+  irValue = particleSensor.getIR();
+  
 
 
+  if (checkForBeat(irValue) == true) {
+    //We sensed a beat!
+    delta = millis() - lastBeat;
+    lastBeat = millis();
+
+    beatsPerMinute = 60 / (delta / 1000.0);
+
+    if (beatsPerMinute < 255 && beatsPerMinute > 20) {
+      rates[rateSpot++] = (byte)beatsPerMinute; //Store this reading in the array
+      rateSpot %= RATE_SIZE; //Wrap variable
+
+      //Take average of readings
+      beatAvg = 0;
+      for (byte x = 0 ; x < RATE_SIZE ; x++)
+        beatAvg += rates[x];
+      beatAvg /= RATE_SIZE;
+    }
+  }
+  if( irValue > 50000 ){
+
+  Serial.print("IR=");
+  Serial.print(irValue);
+  Serial.print(", BPM=");
+  Serial.print(beatsPerMinute);
+  Serial.print(", Avg BPM=");
+  Serial.print(beatAvg);
+  }
+  if (irValue < 50000){
+    Serial.print(" No finger?");
+    delay(1000);
+  }
+  }
 }
 
 void loop()
@@ -118,13 +215,7 @@ void loop()
  //   while (//Serial2.available()) {
   //  //Serial.print(char(//Serial2.read()));
  // }
- if(SerialGPS.available()){
-  char c= SerialGPS.read();
-  nmea += c;
-  if(nmea.size() > 100){
-    nmea = "";
-  }
- }
+
 
     server.handleClient();
 
@@ -141,7 +232,7 @@ void loop()
      //Serial.print("gpsData este: ");
      //Serial.println(gpsData);
      //Serial.println(gps.satellites.value());  
-    
+
   }  
 
 
@@ -206,6 +297,52 @@ void sendHeader(WiFiClient &client, char *hTitle)
   client.write("Connection: close\r\n");
   client.write("\r\n");
   client.write("<!DOCTYPE HTML><html lang='en'>\n");
+}
+
+void handleLocation(){
+  Serial.println("in handleLocation");
+  location_t loc = location.getGeoFromWiFi();
+
+  Serial.println("Location request data");
+  Serial.println(location.getSurroundingWiFiJson());
+  Serial.println("Latitude: " + String(loc.lat, 7));
+  Serial.println("Longitude: " + String(loc.lon, 7));
+  Serial.println("Accuracy: " + String(loc.accuracy));
+  getNTPtime(2);                       // refresh current time from NTP server
+  WiFiClient client = server.client(); // open link with client
+   client.write("HTTP/1.1 200 OK\r\n");
+     client.write("Connection: close\r\n");
+
+  client.write("Content-Type: application/json\r\n");
+  client.write("\r\n");
+  String latituteJson = "{\"latitude\":" + String("\"") + String(loc.lat, 7) + String("\",") ;
+  String longitudeJson = "\"longitude\":" + String("\"") + String(loc.lon, 7) + String("\"}") ;
+
+  client.write(latituteJson.c_str() ); 
+  client.write(longitudeJson.c_str());
+}
+
+void handleHeart(){
+  int status = 0;
+  if(irValue < 50000 )
+  status = 0;
+  else
+  status = 1;
+  Serial.println("in handleLocation");
+  getNTPtime(2);                       // refresh current time from NTP server
+  WiFiClient client = server.client(); // open link with client
+   client.write("HTTP/1.1 200 OK\r\n");
+     client.write("Connection: close\r\n");
+
+  client.write("Content-Type: application/json\r\n");
+  client.write("\r\n");
+  String statusS = "{\"status\":" + String("\"") + String(status) + String("\",") ;
+  String beatAvgStr = "\"avgBPM\":" + String("\"") + String(beatAvg) + String("\"}") ;
+
+  client.write(statusS.c_str() ); 
+  client.write(beatAvgStr.c_str());
+  
+
 }
 
 void handleStream()
@@ -280,12 +417,12 @@ bool initialiseCamera()
   config.pin_sscb_scl = SIOC_GPIO_NUM;
   config.pin_pwdn = PWDN_GPIO_NUM;
   config.pin_reset = RESET_GPIO_NUM;
-  config.xclk_freq_hz = 20000000;       // XCLK 20MHz or 10MHz for OV2640 double FPS (Experimental)
+  config.xclk_freq_hz = 10000000;       // XCLK 20MHz or 10MHz for OV2640 double FPS (Experimental)
   config.pixel_format = PIXFORMAT;      // Options =  YUV422, GRAYSCALE, RGB565, JPEG, RGB888
   config.frame_size = FRAME_SIZE_IMAGE; // Image sizes: 160x120 (QQVGA), 128x160 (QQVGA2), 176x144 (QCIF), 240x176 (HQVGA), 320x240 (QVGA),
                                         //              400x296 (CIF), 640x480 (VGA, default), 800x600 (SVGA), 1024x768 (XGA), 1280x1024 (SXGA),
                                         //              1600x1200 (UXGA)
-  config.jpeg_quality = 12;             // 0-63 lower number means higher quality (can cause failed image capture if set too low at higher resolutions)
+  config.jpeg_quality = 20;             // 0-63 lower number means higher quality (can cause failed image capture if set too low at higher resolutions)
   config.fb_count = 1;                  // if more than one, i2s runs in continuous mode. Use only with JPEG
 
   // check the esp32cam board has a psram chip installed (extra memory used for storing captured images)

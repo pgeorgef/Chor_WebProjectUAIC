@@ -56,6 +56,7 @@ childRouter.post('/getChild', async (req, res) => {
 childRouter.patch('/editChild', async (req, res) => {
   console.log('/chil/editChild');
   console.log(req.body);
+
   console.log(req.body.editChildFormData);
   console.log('---------------------');
   if (await validateFields(JSON.parse(req.body).editChildFormData) === false) {
@@ -85,6 +86,7 @@ childRouter.patch('/editChild', async (req, res) => {
     }
   } else {
     return res.json({ err: 'invalid form' });
+
   }
 });
 

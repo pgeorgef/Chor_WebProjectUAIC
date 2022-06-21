@@ -31,18 +31,8 @@ const main = async () => {
   childRouter.use(Auth());
   app.use('/child', childRouter);
 
-  app.use((req, res, next) => {
-    console.log('middleware peste tot');
-    next();
-    // res.send('am omorat tot');
-  });
   app.use(cors);
   app.use(staticMiddleware('public'));
-  routerPrincipal.use((req, res, next) => {
-    console.log('in routerul principal: ');
-    console.log(req.url);
-    next();
-  });
 };
 
 main();
