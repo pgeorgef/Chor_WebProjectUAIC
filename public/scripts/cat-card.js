@@ -357,6 +357,7 @@ const addChildForm = async (event) => {
   try {
     response = await fetch('http://127.0.0.1/child/addChild', {
       method: 'POST',
+
       body: formdata,
       credentials: 'include',
     });

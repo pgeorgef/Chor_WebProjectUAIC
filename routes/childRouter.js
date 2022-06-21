@@ -48,12 +48,15 @@ childRouter.post('/getChild', async (req, res) => {
 childRouter.patch('/editChild', async (req, res) => {
   console.log('/chil/editChild');
   console.log(req.body);
-  const { id } = JSON.parse(req.body).editChildFormData;
+  const childFormDataEdit = JSON.parse(req.body).editChildFormData;
+  const { id } = childFormDataEdit;
   const editChildFormData = {
-    firstName: JSON.parse(req.body).editChildFormData.firstName,
-    lastName: JSON.parse(req.body).editChildFormData.lastName,
-    adress: JSON.parse(req.body).editChildFormData.adress,
-    dateOfBirth: JSON.parse(req.body).editChildFormData.dateOfBirth,
+    firstName: childFormDataEdit.firstName,
+    lastName: childFormDataEdit.lastName,
+    adress: childFormDataEdit.adress,
+    dateOfBirth: childFormDataEdit.dateOfBirth,
+    IP: childFormDataEdit.IP,
+
   };
   console.log(`ID-UL ESTE ${id}`);
   console.log('``````````````````````');
@@ -61,11 +64,14 @@ childRouter.patch('/editChild', async (req, res) => {
   try {
     console.log(`id este: ${id}`);
     const child = await Child.findById(id);
+    console.log(`child gasit este: ${child}`);
     child.firstName = editChildFormData.firstName;
     child.lastName = editChildFormData.lastName;
     child.adress = editChildFormData.adress;
     child.IP = editChildFormData.IP;
     child.dateOfBirth = editChildFormData.dateOfBirth;
+    console.log('child modificat este:');
+    console.log(child);
     child.save();
     res.redirect('../catsPage');
   } catch (error) {
