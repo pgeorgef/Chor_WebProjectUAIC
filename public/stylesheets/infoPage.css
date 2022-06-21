@@ -68,6 +68,7 @@ body{
     margin: 0.25vw;
     padding: 0.1vw;
     text-align: justify;
+    cursor: pointer;
 }
 .dotHome:hover {
     /*animation: bigCircle 2s linear infinite;*/
@@ -124,6 +125,7 @@ body{
     margin: 0.25vw;
     padding: 0.1vw;
     text-align: justify;
+    cursor: pointer;
 }
 .dotMap:hover{
     /*animation: bigCircle 3s linear infinite;*/
@@ -181,6 +183,7 @@ body{
     margin: 0.25vw;
     padding: 0.1vw;
     text-align: justify;
+    cursor: pointer;
 }
 .dotCam:hover{
     /*animation: bigCircle 3s linear infinite;*/
@@ -347,6 +350,7 @@ body{
         margin-bottom: 1.8vw;
         padding: -0.2vw;
         text-align: justify;
+        cursor: pointer;
     }
     .dotMap {
         position: absolute;
@@ -393,6 +397,7 @@ body{
         margin: 0.1vw;
         padding: 0.1vw;
         text-align: justify;
+        cursor: pointer;
     }
     .dotCam {
         position: absolute;
@@ -439,6 +444,7 @@ body{
         margin: 0.1vw;
         padding: 0.1vw;
         text-align: justify;
+        cursor: pointer;
     }
     .container {
         margin: 0.1vw;
