@@ -70,7 +70,7 @@ async function textBox() {
                 NAME: ${firstName} <br>
                 SURNAME: ${lastName} <br>
                 ADDRESS: ${adress} <br>
-                BIRTDAY: ${zi} <br>
+                BIRTHDAY: ${zi} <br>
                 OWNER'S FULL NAME: ${ownerName} <br>
                 OWNER'S E-MAIL ADDRESS: ${ownerEmail} <br>
                 `;
