@@ -110,6 +110,7 @@ void setup()
   Serial.print("\nWiFi connected, ");
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
+  server.enableCORS(true);
   server.begin();
   server.on("/", handleRoot);
   server.on("/stream", handleStream);
@@ -311,8 +312,10 @@ void handleLocation(){
   getNTPtime(2);                       // refresh current time from NTP server
   WiFiClient client = server.client(); // open link with client
    client.write("HTTP/1.1 200 OK\r\n");
-     client.write("Connection: close\r\n");
-
+  client.write("Access-Control-Allow-Origin: *\r\n");
+  client.write("Access-Control-Max-Age: 10000\r\n");
+  client.write("Access-Control-Allow-Methods: PUT,POST,GET,OPTIONS\r\n");
+  client.write("Access-Control-Allow-Headers: *\r\n");
   client.write("Content-Type: application/json\r\n");
   client.write("\r\n");
   String latituteJson = "{\"latitude\":" + String("\"") + String(loc.lat, 7) + String("\",") ;
@@ -328,12 +331,14 @@ void handleHeart(){
   status = 0;
   else
   status = 1;
-  Serial.println("in handleLocation");
+  Serial.println("in handleheart");
   getNTPtime(2);                       // refresh current time from NTP server
   WiFiClient client = server.client(); // open link with client
    client.write("HTTP/1.1 200 OK\r\n");
-     client.write("Connection: close\r\n");
-
+  client.write("Access-Control-Allow-Origin: *\r\n");
+  client.write("Access-Control-Max-Age: 10000\r\n");
+  client.write("Access-Control-Allow-Methods: PUT,POST,GET,OPTIONS\r\n");
+  client.write("Access-Control-Allow-Headers: *\r\n");
   client.write("Content-Type: application/json\r\n");
   client.write("\r\n");
   String statusS = "{\"status\":" + String("\"") + String(status) + String("\",") ;

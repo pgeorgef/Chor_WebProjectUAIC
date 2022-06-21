@@ -56,6 +56,8 @@ async function textBox() {
   console.log(`avem path${kid.imgPath}`);
 
   const paragraph = document.getElementById('p');
+  let zi = kid.dateOfBirth;
+  zi = zi.slice(0, 10);
   const { firstName } = kid;
   const { lastName } = kid;
   const { adress } = kid;
@@ -68,7 +70,7 @@ async function textBox() {
                 NAME: ${firstName} <br>
                 SURNAME: ${lastName} <br>
                 ADDRESS: ${adress} <br>
-                BIRTDAY: ${dateOfBirth} <br>
+                BIRTDAY: ${zi} <br>
                 OWNER'S FULL NAME: ${ownerName} <br>
                 OWNER'S E-MAIL ADDRESS: ${ownerEmail} <br>
                 `;

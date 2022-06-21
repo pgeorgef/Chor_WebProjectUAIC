@@ -345,27 +345,3 @@ body{
         cursor: pointer;
     }
 }
-@media screen and (max-width: 475px) {
-    #map {
-        width: 82vw;
-        height: 90vh;
-        left: 10%; 
-        margin-top:20%;
-    }
-}
-@media screen and (max-width: 440px) {
-    #map {
-        width: 82vw;
-        height: 90vh;
-        left: 10%; 
-        margin-top:30%;
-    }
-}
-@media screen and (max-width: 400px) {
-    #map {
-        width: 82vw;
-        height: 20vh;
-        left: 10%; 
-        margin-top:40%;
-    }
-}

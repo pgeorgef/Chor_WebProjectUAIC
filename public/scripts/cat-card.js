@@ -296,7 +296,7 @@ function openForm() {
 const logout = async () => {
   let response;
   try {
-    response = await fetch('http://127.0.0.1/logout', {
+    response = await fetch('http://127.0.0.1/account/logout', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

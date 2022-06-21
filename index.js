@@ -1,10 +1,7 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const { Server } = require('./lib/server');
-const { Router } = require('./lib/router');
-const {
-  cors,
-} = require('./lib/utils');
+const cors = require('./lib/cors');
 const staticMiddleware = require('./lib/static');
 const staticRouter = require('./routes/staticRouter');
 const accountRouter = require('./routes/accountRouter');
@@ -16,22 +13,13 @@ const dbURI = 'mongodb+srv://chor:ct7H1gFt3PuE5vrL@cluster0.boslzhe.mongodb.net/
 const main = async () => {
   await mongoose.connect(dbURI);
   const app = new Server(80);
-  const routerPrincipal = new Router();
 
-  routerPrincipal.post('/logout', (req, res) => {
-    res.setHeader('Set-Cookie', `token=''; Path=/; expires=${new Date(new Date().getTime()).toUTCString()}`);
-    res.setHeader('withCredentials', true);
-
-    res.redirect('mainPage');
-  });
-
-  app.use('/', routerPrincipal);
   app.use('/', staticRouter);
   app.use('/account', accountRouter);
   childRouter.use(Auth());
   app.use('/child', childRouter);
 
-  app.use(cors);
+  app.use(cors());
   app.use(staticMiddleware('public'));
 };
 
