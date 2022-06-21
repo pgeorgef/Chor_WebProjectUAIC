@@ -169,23 +169,6 @@ function closeFormEdit() {
   overlay.style.display = 'none';
 }
 
-const validateFirstName = async (firstName) => {
-  const firstNameRegex = /^([A-Z]|[a-z])[a-z]+((-| )([A-Z]|[a-z])[a-z]+)*$/;
-  if (!firstNameRegex.test(firstName) || firstNameRegex.length > 50 || firstName === undefined) {
-    return true;
-  }
-  return false;
-};
-
-const validateLastName = async (lastName) => {
-  const lastNameRegex = /^([A-Z]|[a-z])[a-z]+$/;
-  if (!lastNameRegex.test(lastName) || lastName === undefined) {
-    console.log('invalid last name');
-    return true;
-  }
-  return false;
-};
-
 async function saveSettingsChild(event) {
   event.preventDefault();
   closeFormEdit();
@@ -218,6 +201,10 @@ async function saveSettingsChild(event) {
     }
   } catch (error) {
     console.log(error);
+  }
+  const body = await response.json();
+  if (Object.prototype.hasOwnProperty.call(body, 'err')) {
+    alert(body.err);
   }
 }
 function catPage(idCat) {

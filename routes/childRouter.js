@@ -2,6 +2,7 @@ const fs = require('fs');
 const { Router } = require('../lib/router');
 const User = require('../models/user');
 const Child = require('../models/child');
+const { validateFields } = require('../lib/utils');
 
 const childRouter = new Router();
 
@@ -14,16 +15,23 @@ childRouter.get('/getAllChildren', async (req, res) => {
 });
 
 childRouter.post('/addChild', async (req, res) => {
-  const parent = await User.findOne({ userName: req.user });
+  console.log('~~~~~~~~~~~~~');
+  console.log(req.body.fields.form);
+  console.log('~~~~~~~~~~~~~');
   const bodyData = JSON.parse(req.body.fields.form);
-  fs.renameSync(req.body.files.image.filepath, `${req.body.files.image.filepath}.png`);
-  bodyData.imgPath = (`${req.body.files.image.filepath}.png`).split('public')[1];
-  const child = new Child(bodyData);
-  child.save();
-  // patch similar
-  parent.children.push(child._id);
-  parent.save();
-  res.redirect('../catsPage');
+  if (await validateFields(bodyData) === false) {
+    const parent = await User.findOne({ userName: req.user });
+    fs.renameSync(req.body.files.image.filepath, `${req.body.files.image.filepath}.png`);
+    bodyData.imgPath = (`${req.body.files.image.filepath}.png`).split('public')[1];
+    const child = new Child(bodyData);
+    child.save();
+    // patch similar
+    parent.children.push(child._id);
+    parent.save();
+    res.redirect('../catsPage');
+  } else {
+    return res.json({ err: 'invalid form' });
+  }
 });
 
 childRouter.post('/getChild', async (req, res) => {
@@ -48,34 +56,37 @@ childRouter.post('/getChild', async (req, res) => {
 childRouter.patch('/editChild', async (req, res) => {
   console.log('/chil/editChild');
   console.log(req.body);
-  const childFormDataEdit = JSON.parse(req.body).editChildFormData;
-  const { id } = childFormDataEdit;
-  const editChildFormData = {
-    firstName: childFormDataEdit.firstName,
-    lastName: childFormDataEdit.lastName,
-    adress: childFormDataEdit.adress,
-    dateOfBirth: childFormDataEdit.dateOfBirth,
-    IP: childFormDataEdit.IP,
 
-  };
-  console.log(`ID-UL ESTE ${id}`);
-  console.log('``````````````````````');
-  console.log(`id-ul userului este:${req.user}`);
-  try {
-    console.log(`id este: ${id}`);
-    const child = await Child.findById(id);
-    console.log(`child gasit este: ${child}`);
-    child.firstName = editChildFormData.firstName;
-    child.lastName = editChildFormData.lastName;
-    child.adress = editChildFormData.adress;
-    child.IP = editChildFormData.IP;
-    child.dateOfBirth = editChildFormData.dateOfBirth;
-    console.log('child modificat este:');
-    console.log(child);
-    child.save();
-    res.redirect('../catsPage');
-  } catch (error) {
-    return res.json({ err: 'error while editing the child' });
+  console.log(req.body.editChildFormData);
+  console.log('---------------------');
+  if (await validateFields(JSON.parse(req.body).editChildFormData) === false) {
+    const { id } = JSON.parse(req.body).editChildFormData;
+    const editChildFormData = {
+      firstName: JSON.parse(req.body).editChildFormData.firstName,
+      lastName: JSON.parse(req.body).editChildFormData.lastName,
+      adress: JSON.parse(req.body).editChildFormData.adress,
+      IP: JSON.parse(req.body).editChildFormData.IP,
+      dateOfBirth: JSON.parse(req.body).editChildFormData.dateOfBirth,
+    };
+    console.log(`ID-UL ESTE ${id}`);
+    console.log('``````````````````````');
+    console.log(`id-ul userului este:${req.user}`);
+    try {
+      console.log(`id este: ${id}`);
+      const child = await Child.findById(id);
+      child.firstName = editChildFormData.firstName;
+      child.lastName = editChildFormData.lastName;
+      child.adress = editChildFormData.adress;
+      child.IP = editChildFormData.IP;
+      child.dateOfBirth = editChildFormData.dateOfBirth;
+      child.save();
+      res.redirect('../catsPage');
+    } catch (error) {
+      return res.json({ err: 'error while editing the child' });
+    }
+  } else {
+    return res.json({ err: 'invalid form' });
+
   }
 });
 
