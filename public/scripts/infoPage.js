@@ -53,24 +53,19 @@ async function textBox() {
 
   const image = document.getElementsByClassName('one')[0];
   image.src = kid.imgPath;
-  console.log(`avem path${kid.imgPath}`);
-
   const paragraph = document.getElementById('p');
   let zi = kid.dateOfBirth;
   zi = zi.slice(0, 10);
   const { firstName } = kid;
   const { lastName } = kid;
   const { adress } = kid;
-  const { dateOfBirth } = kid;
   const ownerName = `${parent.firstName} ${parent.lastName}`;
   const ownerEmail = parent.email;
-  const deviceInfo = 'yatta yatta';
-
   const text = `<br>
                 NAME: ${firstName} <br>
                 SURNAME: ${lastName} <br>
                 ADDRESS: ${adress} <br>
-                BIRTDAY: ${zi} <br>
+                BIRTHDAY: ${zi} <br>
                 OWNER'S FULL NAME: ${ownerName} <br>
                 OWNER'S E-MAIL ADDRESS: ${ownerEmail} <br>
                 `;
